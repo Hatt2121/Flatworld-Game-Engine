@@ -64,11 +64,11 @@ public class Running {
 			int j = Integer.valueOf(w);
 			
 			System.out.println();
-			player.fetchWPos(player.pos);
 			player.move(m, j);
 			player.fetchWPos(player.pos);
 			player.printBoardPos();
 			player.printPos();
+			player.printFacingDirection();
 		}
 	}
 	
@@ -82,6 +82,7 @@ public class Running {
 			player.move(m, j);
 			player.printBoardPos();
 			player.printPos();
+			player.printFacingDirection();
 		}
 	}
 	
