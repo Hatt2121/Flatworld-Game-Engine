@@ -21,6 +21,7 @@ public class Player {
 	 */
 	public int positionrows;
 	public int positioncolumns;
+	public boolean movedtoomuch;
 	
 	public Tag curtag;
 	public World pos;
@@ -28,7 +29,7 @@ public class Player {
 	public Inventory inventory = new Inventory();
 	public Item equipeditem;
 	
-	public Direction dir;
+	public Direction dir = Direction.NORTH;
 	
 	public Player(World a) {
 		pos = a;
@@ -178,7 +179,7 @@ public class Player {
 		dir = Direction.NORTH;
 		Board j = pos.returnBoard(curtag);
 		j.board[positionrows][positioncolumns] = prevtile;
-		
+		movedtoomuch = false;
 		if(distance>(positionrows-1)) {
 			if(pos.checkTagList(curtag.posx,curtag.posy+1)) {
 				
@@ -187,6 +188,7 @@ public class Player {
 				//It's too large for the next board
 				if((distance-(positionrows-1)>t.rows)) {
 					System.out.println("Moving Too Much");
+					movedtoomuch = true;
 				} else {
 					positionrows = t.rows - (distance-(positionrows));
 					
@@ -231,6 +233,7 @@ public class Player {
 		dir = Direction.SOUTH;
 		Board j = pos.returnBoard(curtag);
 		j.board[positionrows][positioncolumns] = prevtile;
+		movedtoomuch = false;
 		if(distance>((j.rows-1)-(positionrows-1))) {
 			if(pos.checkTagList(curtag.posx,curtag.posy-1)) {
 				
@@ -239,6 +242,7 @@ public class Player {
 				//It's too large for the next board
 				if((distance-(j.rows - positionrows-1)>t.rows)) {
 					System.out.println("Moving Too Much");
+					movedtoomuch = true;
 				} else {
 					distance = distance - (j.rows  - (positionrows)); 
 					positionrows = distance;
@@ -286,6 +290,7 @@ public class Player {
 		dir = Direction.EAST;
 		Board j = pos.returnBoard(curtag);
 		j.board[positionrows][positioncolumns] = prevtile;
+		movedtoomuch = false;
 		if(distance>((j.columns-1)-(positioncolumns-1))) {
 			if(pos.checkTagList(curtag.posx+1, curtag.posy)) {
 				
@@ -293,6 +298,7 @@ public class Player {
 				
 				if((distance-(j.columns-(positioncolumns-1))) > t.columns) {
 					System.out.println("Moving too much");
+					movedtoomuch = true;
 				} else {
 					positioncolumns = distance - (j.columns - (positioncolumns));
 					
@@ -332,6 +338,7 @@ public class Player {
 		dir = Direction.WEST;
 		Board j = pos.returnBoard(curtag);
 		j.board[positionrows][positioncolumns] = prevtile;
+		movedtoomuch = false;
 		if(distance>positioncolumns-1) {
 			if(pos.checkTagList(curtag.posx-1, curtag.posy)) {
 				
@@ -339,6 +346,7 @@ public class Player {
 				
 				if((distance-(positioncolumns-1)) > t.columns) {
 					System.out.println("Moving too much");
+					movedtoomuch = true;
 				} else {
 					positioncolumns = t.columns - (distance - (positioncolumns));
 					

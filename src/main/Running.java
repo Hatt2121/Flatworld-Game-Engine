@@ -66,9 +66,11 @@ public class Running {
 			System.out.println();
 			player.move(m, j);
 			player.fetchWPos(player.pos);
-			player.printBoardPos();
-			player.printPos();
-			player.printFacingDirection();
+			if(!player.movedtoomuch) {
+				player.printBoardPos();
+				player.printPos();
+				player.printFacingDirection();
+			}
 		}
 	}
 	
@@ -78,11 +80,13 @@ public class Running {
 			int j = Integer.valueOf(q);
 			
 			System.out.println();
-			player.fetchWPos(player.pos);
 			player.move(m, j);
-			player.printBoardPos();
-			player.printPos();
-			player.printFacingDirection();
+			player.fetchWPos(player.pos);
+			if(!player.movedtoomuch) {
+				player.printBoardPos();
+				player.printPos();
+				player.printFacingDirection();
+			}
 		}
 	}
 	
