@@ -1,4 +1,7 @@
-# gamething
+# FlatWorld
 
-This simple project is basically a simple game engine that uses text graphic as apposed to modern ones.
-The intent is to keep it simple and public, but right now I don't want it to be.
+This project is a simple text-based game engine built on the publicity of information. It's simplicity would provide easily created and moddable games that give players oppertunity to play how they want. 
+
+## How Players Communicate with the Game
+
+The games that will be associated with it (if there are games) would be connected via a console.
