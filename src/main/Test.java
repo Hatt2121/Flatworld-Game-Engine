@@ -12,8 +12,6 @@ public class Test {
 		player.pos.spawntag = spawnboard.tag;
 		player.spawnPlayer(player.pos);
 		player.fetchWPos(player.pos);
-		player.printBoardPos();
-		player.printPos();
 	
 		Running h = new Running(player);
 		h.mainrunner();

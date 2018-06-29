@@ -9,6 +9,9 @@ public class Running {
 	}
 	
 	public void mainrunner() {
+		player.name = a.returnString("What do you want to be called?: ");
+		player.pos.name = a.returnString("What do you want the world to be called?: ");
+		
 		for(;;) {
 			String b = a.whatToDo();
 			if(b.equals("quit")) {
@@ -28,6 +31,7 @@ public class Running {
 					
 					help(e,q);
 					movetwo(e,q);
+					printtwo(e,q);
 					
 					break;
 				case 3:
@@ -69,7 +73,6 @@ public class Running {
 			if(!player.movedtoomuch) {
 				player.printBoardPos();
 				player.printPos();
-				player.printFacingDirection();
 			}
 		}
 	}
@@ -85,7 +88,6 @@ public class Running {
 			if(!player.movedtoomuch) {
 				player.printBoardPos();
 				player.printPos();
-				player.printFacingDirection();
 			}
 		}
 	}
@@ -109,6 +111,39 @@ public class Running {
 			//To make it temporarily look more pretty, I'm going to print a new line:
 			System.out.println();
 			System.out.println("Wow, that's a lot of functions that you could use.");
+		}
+	}
+	
+	public void printtwo(String e, String q) {
+		if(e.equals("print")) {
+			switch(q) {
+			case"world":
+				//This method is currently being worked on
+			case"current_position":
+				player.printBoardPos();
+				player.printPos();
+			case"inventory":
+				//This method is currently being worked on
+			}
+		}
+	}
+	
+	public void facetwo(String e, String q) {
+		if(e.equals("face")) {
+			switch(q) {
+			case"north":
+				player.dir = Direction.NORTH;
+				break;
+			case"south":
+				player.dir = Direction.SOUTH;
+				break;
+			case"east":
+				player.dir = Direction.EAST;
+				break;
+			case"west":
+				player.dir = Direction.WEST;
+				break;
+			}
 		}
 	}
 }

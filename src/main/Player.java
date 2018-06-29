@@ -4,6 +4,17 @@ import items.Item;
 public class Player {
 	
 	/**
+	 * track where a player is on a board
+	 */
+	public int positionrows;
+	public int positioncolumns;
+	
+	//Temporary constant
+	public double health = 25;
+	
+	public boolean movedtoomuch;
+	
+	/**
 	 * This String is simply the representation of  itself on the board
 	 */
 	public String character = "T ";
@@ -15,13 +26,6 @@ public class Player {
 	 * This is the name of the character or player
 	 */
 	public String name;
-	
-	/**
-	 * track where a player is on a board
-	 */
-	public int positionrows;
-	public int positioncolumns;
-	public boolean movedtoomuch;
 	
 	public Tag curtag;
 	public World pos;
@@ -72,6 +76,7 @@ public class Player {
 				"\nPos. Rows: " + positionrows +
 				" Pos. Columns: " + positioncolumns
 		);
+		printFacingDirection();
 	}
 
 	public void fetchPos(Board a) {
