@@ -2,7 +2,7 @@
 
 ## Version History (past *And Including* 0.0.4)
 * 0.0.4
-  * The most basic version, yet incomplete
+  * The most basic version, (A lot more is needed before even going to 0.1.0)
 
 ## What is Completed and Version Number
 * Everything before the next entry
