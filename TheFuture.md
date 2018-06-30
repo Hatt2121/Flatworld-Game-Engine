@@ -1,7 +1,7 @@
 # What is Going to Happen
 
 ## Version History (past 0.0.4)
-* 0.04
+* 0.0.4
   * The most basic version, yet incomplete
 
 ## Currently Being Worked On
