@@ -12,6 +12,7 @@
 * Command Line Functions
 * Health
 * Hunger
+* Movement between points
 
 ## Near Future
 * Tiles
