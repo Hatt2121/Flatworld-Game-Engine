@@ -5,7 +5,8 @@
   * The most basic version, yet incomplete
 
 ## What is Completed and Version Number
-* Everything before the next entry : 0.0.4
+* Everything before the next entry
+	* 0.0.4
 
 ## Currently Being Worked On
 * Command Line Functions
