@@ -1,6 +1,6 @@
 # What is Going to Happen
 
-## Version History (past 0.0.4)
+## Version History (past *And Including* 0.0.4)
 * 0.0.4
   * The most basic version, yet incomplete
 
