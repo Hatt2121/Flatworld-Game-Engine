@@ -10,7 +10,14 @@ public class Player {
 	public int positioncolumns;
 	
 	//Temporary constant
+	//Will be printed on percentage
 	public double health = 25;
+	public double maxhealth = 25;
+	
+	//Hungry when hunger is 0
+	//
+	public double hunger = 25;
+	public double maxhunger = 25;
 	
 	public boolean movedtoomuch;
 	

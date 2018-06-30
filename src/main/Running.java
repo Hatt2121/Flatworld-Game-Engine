@@ -21,30 +21,39 @@ public class Running {
 				switch(n.length) {
 				case 1:
 					String h = n[0];
-					
-					helpone(h);
-					
+					one(h);
+					//Post move
 					break;
 				case 2:
 					String e = n[0];
 					String q = n[1];
-					
-					help(e,q);
-					movetwo(e,q);
-					printtwo(e,q);
-					
+					two(e,q);
+					//Post move
 					break;
 				case 3:
 					String r = n[0];
 					String y = n[1];
 					String w = n[2];
-					
-					movethree(r,y,w);
-					
+					three(r,y,w);
+					//post move
 					break;
 				}
 			}
 		}
+	}
+	
+	public void one(String h) {
+		helpone(h);
+	}
+	
+	public void two(String e, String q) {
+		helptwo(e,q);
+		movetwo(e,q);
+		printtwo(e,q);
+	}
+	
+	public void three(String r, String y, String w) {
+		movethree(r,y,w);
 	}
 	
 	public static Direction convertDirection(String str) {
@@ -92,7 +101,7 @@ public class Running {
 		}
 	}
 	
-	public void help(String e, String q) {
+	public void helptwo(String e, String q) {
 		if(e.equals("help")) {
 			switch(q) {
 			default:
@@ -107,9 +116,10 @@ public class Running {
 			System.out.println();
 			System.out.println("Here is the list of functions:");
 			System.out.println("-------------------------------");
-			//Continue printing the list of functions
-			//To make it temporarily look more pretty, I'm going to print a new line:
-			System.out.println();
+			//These will be entered manually
+			System.out.println("help: displays this message use help [function] to figure out what that function does in more depth");
+			System.out.println("print: prints what you need");
+			System.out.println("");
 			System.out.println("Wow, that's a lot of functions that you could use.");
 		}
 	}
@@ -122,8 +132,16 @@ public class Running {
 			case"current_position":
 				player.printBoardPos();
 				player.printPos();
+				break;
 			case"inventory":
-				//This method is currently being worked on
+				//This part is in progress
+			case"player_stats":
+				System.out.println("Health: " + player.health);
+				System.out.println("Health Percentage: " +((int) (player.health/player.maxhealth)*100) + "%");
+				System.out.println();
+				System.out.println("Hunger: " + player.hunger);
+				System.out.println("Hunger Percentage: " + ((int) (player.hunger/player.maxhunger)*100) + "%");
+				//More will come as more features are added (Specifically Temperature)
 			}
 		}
 	}
