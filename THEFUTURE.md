@@ -27,6 +27,7 @@
 * Armor
 * GUI's
 * Multiplayer and Server support
+* *Possibly Moving in the 3rd Dimension?*
 
 ## Popular Suggestions (Or Ones from Myself that even in the Engine Yet)
 * Enable the *option* to have certain features within the engine
