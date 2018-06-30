@@ -1,0 +1,28 @@
+# What is Going to Happen
+
+## Version History (past 0.0.4)
+* 0.0.4
+  * The most basic version, yet incomplete
+
+## Currently Being Worked On
+* Command Line Functions
+* Health
+* Hunger
+
+## Near Future
+* Tiles
+* Entities
+* Player Inventory
+
+## Far Future
+* Mod Support
+* Temperature
+* World Generation (Very Important)
+* Block-Chain Items (Inspired by the idea from *Extra Credits*)
+* Armor
+* GUI's
+* Multiplayer and Server support
+
+## Popular Suggestions (Or Ones from Myself that even in the Engine Yet)
+* Enable the *option* to have certain features within the engine
+	* (This is very important as it makes it an engine)
