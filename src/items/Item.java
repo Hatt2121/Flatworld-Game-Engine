@@ -10,12 +10,12 @@ public class Item {
 	public double density = 3;
 	
 	public String name;
-	public String character;
+	public String character = "l";
 	public String prevtile;
 	
 	public Board curboard;
 	
-	//public Value value;
+	public Value value;
 	
 	public Item(String name) {
 		this.name = name;
@@ -33,9 +33,13 @@ public class Item {
 		positioncolumns = 5;
 		
 		prevtile = y.board[positionrows][positioncolumns];
-		y.board[positionrows][positioncolumns] = character;
+		y.board[positionrows][positioncolumns] = character+" ";
 		
 		y.specials.add(this);
 		curboard = y;
+	}
+	
+	public void printStats() {
+		System.out.println(name+" " +character+" "+value+""+weight+" "+size+" "+density);
 	}
 }

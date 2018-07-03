@@ -60,4 +60,12 @@ public class Inventory {
 			}
 		}
 	}
+	
+	public void printInventory() {
+		System.out.println("Name - Character - Value - Weight - Size - Density");
+		System.out.println();
+		for(int x = 0; x < itemlist.size(); x++) {
+			itemlist.get(x).printStats();
+		}
+	}
 }

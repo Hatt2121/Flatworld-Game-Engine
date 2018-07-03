@@ -10,14 +10,16 @@ public class Running {
 	
 	public void mainrunner() {
 		player.name = a.returnString("What do you want to be called?: ");
+		System.out.println();
 		player.pos.name = a.returnString("What do you want the world to be called?: ");
 		
 		for(;;) {
 			String b = a.whatToDo();
-			if(b.equals("quit")) {
+			String o = b.toLowerCase();
+			if(o.equals("quit")) {
 				break;
 			} else {
-				String[] n = b.split(" ");
+				String[] n = o.split(" ");
 				switch(n.length) {
 				case 1:
 					String h = n[0];
@@ -50,38 +52,24 @@ public class Running {
 		helptwo(e,q);
 		movetwo(e,q);
 		printtwo(e,q);
+		facetwo(e,q);
 	}
 	
 	public void three(String r, String y, String w) {
 		movethree(r,y,w);
 	}
 	
-	public static Direction convertDirection(String str) {
-		switch(str) {
-		case "north":
-			return Direction.NORTH;
-		case "south":
-			return Direction.SOUTH;
-		case "east":
-			return Direction.EAST;
-		case "west":
-			return Direction.WEST;
-		default:
-			return null;
-		}
-	}
-	
 	public void movethree(String r, String y, String w) {
 		if(r.equals("move")) {
-			Direction m = convertDirection(y);
+			Direction m = Direction.fromString(y);
 			int j = Integer.valueOf(w);
 			
 			System.out.println();
 			player.move(m, j);
-			player.fetchWPos(player.pos);
+			player.fetchPos(player.pos);
 			if(!player.movedtoomuch) {
-				player.printBoardPos();
-				player.printPos();
+				player.printCurrentBoard();
+				player.printPosition();
 			}
 		}
 	}
@@ -93,10 +81,10 @@ public class Running {
 			
 			System.out.println();
 			player.move(m, j);
-			player.fetchWPos(player.pos);
+			player.fetchPos(player.pos);
 			if(!player.movedtoomuch) {
-				player.printBoardPos();
-				player.printPos();
+				player.printCurrentBoard();
+				player.printPosition();
 			}
 		}
 	}
@@ -115,12 +103,11 @@ public class Running {
 			System.out.println("To get help, you need to write the funtion name after a space, after the help function.");
 			System.out.println();
 			System.out.println("Here is the list of functions:");
-			System.out.println("-------------------------------");
-			//These will be entered manually
-			System.out.println("help: displays this message use help [function] to figure out what that function does in more depth");
-			System.out.println("print: prints what you need");
+			System.out.println("------------------------------");
+			System.out.println("help");
+			System.out.println("print");
+			System.out.println("face");
 			System.out.println("");
-			System.out.println("Wow, that's a lot of functions that you could use.");
 		}
 	}
 	
@@ -130,8 +117,8 @@ public class Running {
 			case"world":
 				//This method is currently being worked on
 			case"current_position":
-				player.printBoardPos();
-				player.printPos();
+				player.printCurrentBoard();
+				player.printPosition();
 				break;
 			case"inventory":
 				//This part is in progress
@@ -148,20 +135,8 @@ public class Running {
 	
 	public void facetwo(String e, String q) {
 		if(e.equals("face")) {
-			switch(q) {
-			case"north":
-				player.dir = Direction.NORTH;
-				break;
-			case"south":
-				player.dir = Direction.SOUTH;
-				break;
-			case"east":
-				player.dir = Direction.EAST;
-				break;
-			case"west":
-				player.dir = Direction.WEST;
-				break;
-			}
+			Direction a = Direction.fromString(q);
+			player.changeFacingDirection(a);
 		}
 	}
 }

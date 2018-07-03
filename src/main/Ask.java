@@ -32,7 +32,6 @@ public class Ask {
 	}
 	
 	public String returnString(String str) {
-		System.out.println();
 		System.out.println(str);
 		String a = sca.nextLine();
 		return a;

@@ -73,17 +73,19 @@ public class Player {
 		this.name = name;
 	}
 	
-	public void printBoardPos() {
+	public void printCurrentBoard() {
 		pos.returnBoard(curtag.posx, curtag.posy).printBoard();
 	}
 	
-	public void printPos() {
+	public void printPosition() {
 		System.out.println(
 				 curtag.tagCoordinates() +
 				"\nPos. Rows: " + positionrows +
 				" Pos. Columns: " + positioncolumns
 		);
-		printFacingDirection();
+		if(dir != null) {
+			printFacingDirection();
+		}
 	}
 
 	public void fetchPos(Board a) {
@@ -99,7 +101,7 @@ public class Player {
 		System.out.println("Pos Columns: " + positioncolumns);
 	}
 	
-	public void fetchWPos(World a) {
+	public void fetchPos(World a) {
 		for(int k = 0; k<a.overboard.size(); k++) {
 			for(int g = 0; g<=a.overboard.get(k).columns; g++) {
 				for(int c = 0;c<=a.overboard.get(k).rows; c++) {
@@ -119,7 +121,7 @@ public class Player {
 	 * @param a
 	 * @param distance
 	 * 
-	 * @deprecated
+	 * 
 	 */
 	public void move(Board c, String a, int distance) {
 		c.board[positionrows][positioncolumns] = prevtile;
@@ -394,22 +396,6 @@ public class Player {
 		}
 	}
 	
-	public void printFacingDirection() {
-		switch(dir) {
-			case WEST:
-				System.out.println("Facing West");
-				break;
-			case EAST:
-				System.out.println("Facing East");
-				break;
-			case NORTH:
-				System.out.println("Facing North");
-				break;
-			case SOUTH:
-				System.out.println("Facing South");
-				break;
-		}
-	}
 	
 	/**
 	 * Don't interact with a border, it wouldn't work.
@@ -481,9 +467,7 @@ public class Player {
 	
 	public void equipItem() {
 		Ask b = new Ask();
-		for(Item a : inventory.itemlist) {
-			System.out.println(a);
-		}
+		inventory.printInventory();
 		String c = b.returnString("What do you want to equip");
 		for(Item d : inventory.itemlist) {
 			if(c.equals(d.name)) {
@@ -497,17 +481,55 @@ public class Player {
 	
 	public void move(Direction dir, int distance) {
 		switch(dir) {
+			case NORTH:
+				moveNorth(distance);
+				break;
+			case SOUTH:
+				moveSouth(distance);
+				break;
+			case EAST:
+				moveEast(distance);
+				break;
+			case WEST:
+				moveWest(distance);
+				break;
+		}
+	}
+	
+	public void printFacingDirection() {
+		switch(dir) {
+			case WEST:
+				System.out.println("Facing West");
+				break;
+			case EAST:
+				System.out.println("Facing East");
+				break;
+			case NORTH:
+				System.out.println("Facing North");
+				break;
+			case SOUTH:
+				System.out.println("Facing South");
+				break;
+		}
+	}
+	
+	public void changeFacingDirection(Direction towhat) {
+		switch(towhat) {
 		case NORTH:
-			moveNorth(distance);
+			dir = Direction.NORTH;
+			System.out.println("Now Facing North");
 			break;
 		case SOUTH:
-			moveSouth(distance);
+			dir = Direction.SOUTH;
+			System.out.println("Now Facing South");
 			break;
 		case EAST:
-			moveEast(distance);
+			dir = Direction.EAST;
+			System.out.println("Now Facing East");
 			break;
 		case WEST:
-			moveWest(distance);
+			dir = Direction.WEST;
+			System.out.println("Now Facing West");
 			break;
 		}
 	}
