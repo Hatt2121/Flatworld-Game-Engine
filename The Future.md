@@ -8,7 +8,7 @@
 		* Class:
 			* Value
 		* Method:
-			* Direction
+			* [Direction]
 				* fromString(String str) - converts string into a direction
 		* Commands:
 			* "face <direction>" - Changes Direction of the Player
