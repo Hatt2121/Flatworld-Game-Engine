@@ -4,18 +4,28 @@
 * 0.1.4
 	* The most basic version, (A lot more is needed before even going to 0.1.0)
 * 0.1.5
-	* Adds alot more and renamed everything
+	* Adds:
+		* Class:
+			* Value
+		* Method:
+			* Direction
+				* fromString(String str) - converts string into a direction
+		* Commands:
+			* "face <direction>" - Changes Direction of the Player
+	* Renamed:
+		* Class "Test" to "Main"
+		* Methods in Class [Player]
 
 ## Currently Being Worked On
 * Command Line Functions
-* Health
-* Hunger
 * Movement between points
 
 ## Near Future
 * Tiles
 * Entities
 * Player Inventory
+* Health
+* Hunger
 
 ## Far Future
 * Mod Support
