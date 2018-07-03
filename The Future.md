@@ -4,7 +4,7 @@
 * 0.1.4
 	* The most basic version, (A lot more is needed before even going to 0.1.0)
 * 0.1.5
-  * Adds alot more and renamed everything
+	* Adds alot more and renamed everything
 
 ## What is Completed and Version Number
 * Everything before the next entry
