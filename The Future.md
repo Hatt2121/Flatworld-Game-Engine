@@ -2,7 +2,7 @@
 
 ## Version History (past *And Including* 0.0.4)
 * 0.1.4
-  * The most basic version, (A lot more is needed before even going to 0.1.0)
+	* The most basic version, (A lot more is needed before even going to 0.1.0)
 * 0.1.5
   * Adds alot more and renamed everything
 
