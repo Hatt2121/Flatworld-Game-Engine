@@ -16,6 +16,10 @@
 		* Class "Test" to "Main"
 		* Methods in Class [Player]
 
+* 0.1.7
+	* Adds:
+		Litterally a bunch of classes (Too many)
+
 ## Currently Being Worked On
 * Command Line Functions
 * Movement between points
