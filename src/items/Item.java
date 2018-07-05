@@ -30,12 +30,20 @@ public class Item {
 		positionrows = (int) (Math.random() * y.rows) + 1;
 		positioncolumns = (int) (Math.random() * y.columns)+ 1;
 		
-		y = a.overboard.get(0);
-		positionrows = 4;
-		positioncolumns = 5;
+		int n = (int) (Math.random() * 2) + 1;
+		weight = n;
+		size = n;
+		density = n;
+		value = new Value(n);
+		
+		character = "r";
 		
 		prevtile = y.board[positionrows][positioncolumns];
 		y.board[positionrows][positioncolumns] = character+" ";
+		
+		/*
+		 * For now, I'm going to randomize the properties just to test things out
+		 */
 		
 		y.specials.add(this);
 		curboard = y;
@@ -43,6 +51,6 @@ public class Item {
 	}
 	
 	public void printStats() {
-		System.out.println(name+" " +character+" "+value+""+weight+" "+size+" "+density);
+		System.out.println(name+" " +character+" "+value.value+" "+weight+" "+size+" "+density);
 	}
 }

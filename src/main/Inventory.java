@@ -12,13 +12,16 @@ public class Inventory {
 	
 	boolean overweight;
 	
-	double weightlimit;
-	double sizelimit;
+	//These values are temporary
+	double weightlimit = 7;
+	double sizelimit = 7;
 	
 	double weighttotal = 0;
 	double sizetotal = 0;
 	
 	public void addToInventory(Item a) {
+		checkWeight();
+		checkPack();
 		if(!filled&&!overweight) {
 			itemlist.add(a);
 		}
@@ -62,10 +65,23 @@ public class Inventory {
 	}
 	
 	public void printInventory() {
-		System.out.println("Name - Character - Value - Weight - Size - Density");
+		System.out.println("+--------------------------------------------------+");
+		System.out.println("|Name - Character - Value - Weight - Size - Density|");
+		System.out.println("+--------------------------------------------------+");
 		System.out.println();
+		//Make it more dynamic
 		for(int x = 0; x < itemlist.size(); x++) {
 			itemlist.get(x).printStats();
 		}
+	}
+
+	public void printStats() {
+		System.out.println("Inventory Statistics: ");
+		System.out.println("Weight: " +
+				"\n" +weighttotal+'/'+weightlimit + " " + ((int) (weighttotal/weightlimit)*100)+"%");
+		System.out.println();
+		System.out.println("Size: " +
+				"\n" +sizetotal+'/'+sizelimit + " " + ((int) (sizetotal/sizelimit)*100)+"%");
+		
 	}
 }

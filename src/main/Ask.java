@@ -31,6 +31,14 @@ public class Ask {
 		return a;
 	}
 	
+	public String whatToDo(int clock) {
+		System.out.println();
+		System.out.println(clock+") What do you want to do?");
+		String a = sca.nextLine();
+		this.a = a;
+		return a;
+	}
+	
 	public String returnString(String str) {
 		System.out.println(str);
 		String a = sca.nextLine();

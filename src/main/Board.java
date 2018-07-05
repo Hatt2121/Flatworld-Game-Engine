@@ -31,12 +31,6 @@ public class Board {
 	public void setBoard() {
 		board = new String[rows+2][columns+2];
 		
-		/*
-		 board[4][6] = "1 ";
-		 board[10][15] = "y ";
-		 board[12][5] = "g ";
-		 
-		*/
 		for(int k = 0; k <board.length; k++) {
 			for(int i = 0; i <board[0].length; i++) {
 				if (board[k][i]==null) {
