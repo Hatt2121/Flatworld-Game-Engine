@@ -27,17 +27,16 @@
 		* The ability to print the player's inventory
 
 ## Currently Being Worked On
-* Command Line Functions
-* Movement between points
+* Console Line Functions
+* Command Functions
 
 ## Near Future
 * Tiles
 * Entities
-* Player Inventory
 * Health
-* Hunger
 
-## Far Future
+## Far Future (In order of how close they are to being started)
+* Hunger
 * Mod Support
 * Temperature
 * World Generation (Very Important)
