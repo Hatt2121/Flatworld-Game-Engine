@@ -15,7 +15,7 @@ public class Tag {
 		posy = y;
 	}
 	
-	public String tagCoordinates() {
+	public String printCoordinates() {
 		String a = "("+posx+","+posy+")";
 		return a;
 	}

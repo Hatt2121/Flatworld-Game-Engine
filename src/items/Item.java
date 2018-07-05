@@ -2,15 +2,17 @@ package items;
 import main.*;
 
 public class Item {
+	public boolean inenvironment;
+	
 	public int positionrows;
 	public int positioncolumns;
 	
-	public double weight = 1;
-	public double size = 2;
-	public double density = 3;
+	public double weight;
+	public double size;
+	public double density;
 	
 	public String name;
-	public String character = "l";
+	public String character;
 	public String prevtile;
 	
 	public Board curboard;
@@ -37,6 +39,7 @@ public class Item {
 		
 		y.specials.add(this);
 		curboard = y;
+		inenvironment = true;
 	}
 	
 	public void printStats() {

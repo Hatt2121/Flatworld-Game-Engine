@@ -79,7 +79,7 @@ public class Player {
 	
 	public void printPosition() {
 		System.out.println(
-				 curtag.tagCoordinates() +
+				 curtag.printCoordinates() +
 				"\nPos. Rows: " + positionrows +
 				" Pos. Columns: " + positioncolumns
 		);

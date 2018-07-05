@@ -24,20 +24,20 @@ public class Running {
 				case 1:
 					String h = n[0];
 					one(h);
-					//Post move
+					postmove();
 					break;
 				case 2:
 					String e = n[0];
 					String q = n[1];
 					two(e,q);
-					//Post move
+					postmove();
 					break;
 				case 3:
 					String r = n[0];
 					String y = n[1];
 					String w = n[2];
 					three(r,y,w);
-					//post move
+					postmove();
 					break;
 				}
 			}
@@ -138,5 +138,15 @@ public class Running {
 			Direction a = Direction.fromString(q);
 			player.changeFacingDirection(a);
 		}
+	}
+	
+	public void save() {
+		
+	}
+	
+	public void postmove() {
+		//Npc needs to move
+		//Things need to be cleaned up
+		//Option to save at any time
 	}
 }

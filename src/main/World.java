@@ -152,7 +152,7 @@ public class World {
 	//Print the Lists
 	public void printOvertag() {
 		for(int i = 0; i <overtag.size(); i++) {
-			System.out.println("Tag of Index-" + i +": " + overtag.get(i).tagCoordinates());
+			System.out.println("Tag of Index-" + i +": " + overtag.get(i).printCoordinates());
 		}
 	}
 	
@@ -170,5 +170,9 @@ public class World {
 			}
 		}
 		return false;
+	}
+	
+	public void generate(String[] args) {
+		//A bunch of generating stuff
 	}
 }

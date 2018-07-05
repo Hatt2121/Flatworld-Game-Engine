@@ -1,6 +1,6 @@
 package main;
 
-import items.Item;
+import items.*;
 
 public class Main {
 	public static void main(String[] args) {
@@ -12,7 +12,7 @@ public class Main {
 		
 		player.pos.addBoard(spawnboard);
 		player.pos.spawntag = spawnboard.tag;
-		Item j = new Item("Sword");
+		Item j = new Weapon("Sword");
 		j.spawnItem(player.pos);
 		player.spawnPlayer(player.pos);
 		player.fetchPos(player.pos);
