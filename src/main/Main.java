@@ -19,6 +19,5 @@ public class Main {
 	
 		Running h = new Running(player);
 		h.mainrunner();
-		
 	}
 }

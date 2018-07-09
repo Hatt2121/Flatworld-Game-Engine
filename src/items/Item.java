@@ -1,5 +1,6 @@
 package items;
 import main.*;
+import tile.*;
 
 public class Item {
 	public boolean inenvironment;
@@ -13,7 +14,7 @@ public class Item {
 	
 	public String name;
 	public String character;
-	public String prevtile;
+	public Tile prevtile;
 	
 	public Board curboard;
 	
@@ -21,6 +22,11 @@ public class Item {
 	
 	public Item(String name) {
 		this.name = name;
+	}
+	
+	public Item(String name, String character) {
+		this.name = name;
+		this.character = character;
 	}
 	
 	public void spawnItem(World a) {
@@ -37,9 +43,10 @@ public class Item {
 		value = new Value(n);
 		
 		character = "r";
+		//Change this
 		
 		prevtile = y.board[positionrows][positioncolumns];
-		y.board[positionrows][positioncolumns] = character+" ";
+		y.board[positionrows][positioncolumns] = new ItemTile(this);
 		
 		/*
 		 * For now, I'm going to randomize the properties just to test things out

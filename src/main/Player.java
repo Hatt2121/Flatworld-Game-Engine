@@ -1,7 +1,10 @@
 package main;
 import items.Item;
+import tile.*;
 
 public class Player {
+	
+	public boolean movedtoomuch;
 	
 	/**
 	 * track where a player is on a board
@@ -18,17 +21,14 @@ public class Player {
 	//
 	public double hunger = 25;
 	public double maxhunger = 25;
-	
-	public boolean movedtoomuch;
-	
 	/**
 	 * This String is simply the representation of  itself on the board
 	 */
 	public String character = "T ";
 	/**
-	 * This String is for moving, because I can't actually delete the tile below the player
+	 * This Tile is for moving, because I can't actually delete the tile below the player
 	 */
-	public String prevtile;
+	public Tile prevtile;
 	/**
 	 * This is the name of the character or player
 	 */
@@ -42,6 +42,8 @@ public class Player {
 	
 	public Direction dir = Direction.NORTH;
 	
+	public Tile playertile = new PlayerTile(this);
+	
 	public Player(World a) {
 		pos = a;
 	}
@@ -52,7 +54,7 @@ public class Player {
 		int b = (spawn.rows/2)+1;
 		int c = (spawn.columns/2) + 1;
 		prevtile = spawn.board[b][c];
-		spawn.board[b][c] = character;
+		spawn.board[b][c] = playertile;
 	}
 	
 	public void spawnPlayer(World a) {
@@ -63,7 +65,7 @@ public class Player {
 			int b = (spawn.rows/2)+1;
 			int c = (spawn.columns/2) +1;
 			prevtile = spawn.board[b][c];
-			spawn.board[b][c] = character;
+			spawn.board[b][c] = playertile;
 		} else {
 			System.out.println("There is no World");
 		}
@@ -91,7 +93,7 @@ public class Player {
 	public void fetchPos(Board a) {
 		for(int k = 0; k<a.board[0].length; k++) {
 			for(int b = 0; b<a.board.length; b++) {
-				if(a.board[b][k].equals(character)) {
+				if(a.board[b][k].equals(playertile)) {
 					positionrows = b;
 					positioncolumns = k;
 				}
@@ -106,7 +108,7 @@ public class Player {
 			for(int g = 0; g<=a.overboard.get(k).columns; g++) {
 				for(int c = 0;c<=a.overboard.get(k).rows; c++) {
 					Board h = a.overboard.get(k);
-					if(h.board[c][g].equals(character)) {
+					if(h.board[c][g].equals(playertile)) {
 						curtag = h.tag;
 						positionrows = c;
 						positioncolumns = g;
@@ -143,7 +145,7 @@ public class Player {
 				break;
 		}
 		prevtile = c.board[positionrows][positioncolumns];
-		c.board[positionrows][positioncolumns] = character;
+		c.board[positionrows][positioncolumns] = playertile;
 	}
 	
 	/** 
@@ -186,7 +188,7 @@ public class Player {
 					break;
 			}
 			prevtile = c.board[positionrows][positioncolumns];
-			c.board[positionrows][positioncolumns] = character;
+			c.board[positionrows][positioncolumns] = playertile;
 	}
 	
 	public void moveNorth(int distance) {
@@ -207,7 +209,7 @@ public class Player {
 					positionrows = t.rows - (distance-(positionrows));
 					
 					prevtile = t.board[positionrows][positioncolumns];
-					t.board[positionrows][positioncolumns] = character;
+					t.board[positionrows][positioncolumns] = playertile;
 					
 					
 				}
@@ -232,14 +234,14 @@ public class Player {
 					positionrows = t.rows - (distance-(positionrows));
 					
 					prevtile = t.board[positionrows][positioncolumns];
-					t.board[positionrows][positioncolumns] = character;
+					t.board[positionrows][positioncolumns] = playertile;
 				}
 				
 			}
 		} else {
 			positionrows = positionrows - distance;
 			prevtile = j.board[positionrows][positioncolumns];
-			j.board[positionrows][positioncolumns] = character;
+			j.board[positionrows][positioncolumns] = playertile;
 		}
 	}
 	
@@ -262,7 +264,7 @@ public class Player {
 					positionrows = distance;
 					
 					prevtile = t.board[positionrows][positioncolumns];
-					t.board[positionrows][positioncolumns] = character;
+					t.board[positionrows][positioncolumns] = playertile;
 					
 					
 				}
@@ -289,14 +291,14 @@ public class Player {
 					positionrows = distance;
 					
 					prevtile = t.board[positionrows][positioncolumns];
-					t.board[positionrows][positioncolumns] = character;
+					t.board[positionrows][positioncolumns] = playertile;
 				}
 				
 			}
 		} else {
 			positionrows = positionrows + distance;
 			prevtile = j.board[positionrows][positioncolumns];
-			j.board[positionrows][positioncolumns] = character;
+			j.board[positionrows][positioncolumns] = playertile;
 		}
 	}
 	
@@ -317,7 +319,7 @@ public class Player {
 					positioncolumns = distance - (j.columns - (positioncolumns));
 					
 					prevtile = t.board[positionrows][positioncolumns];
-					t.board[positionrows][positioncolumns] = character;
+					t.board[positionrows][positioncolumns] = playertile;
 				}
 			} else {
 				Tag board = new Tag(curtag.posx+1,curtag.posy);
@@ -338,13 +340,13 @@ public class Player {
 					positioncolumns = distance - (j.columns - (positioncolumns));
 					
 					prevtile = t.board[positionrows][positioncolumns];
-					t.board[positionrows][positioncolumns] = character;
+					t.board[positionrows][positioncolumns] = playertile;
 				}		
 			}
 		} else {
 			positioncolumns = positioncolumns + distance;
 			prevtile = j.board[positionrows][positioncolumns];
-			j.board[positionrows][positioncolumns] = character;
+			j.board[positionrows][positioncolumns] = playertile;
 		}
 	}
 	
@@ -365,7 +367,7 @@ public class Player {
 					positioncolumns = t.columns - (distance - (positioncolumns));
 					
 					prevtile = t.board[positionrows][positioncolumns];
-					t.board[positionrows][positioncolumns] = character;
+					t.board[positionrows][positioncolumns] = playertile;
 				}
 			} else {
 				Tag board = new Tag(curtag.posx-1,curtag.posy);
@@ -386,13 +388,13 @@ public class Player {
 					positioncolumns = t.columns - (distance - (positioncolumns));
 					
 					prevtile = t.board[positionrows][positioncolumns];
-					t.board[positionrows][positioncolumns] = character;
+					t.board[positionrows][positioncolumns] = playertile;
 				}		
 			}
 		} else {
 			positioncolumns = positioncolumns - distance;
 			prevtile = j.board[positionrows][positioncolumns];
-			j.board[positionrows][positioncolumns] = character;
+			j.board[positionrows][positioncolumns] = playertile;
 		}
 	}
 	

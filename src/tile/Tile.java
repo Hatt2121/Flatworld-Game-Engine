@@ -1,5 +1,22 @@
 package tile;
 
 public abstract class Tile {
-	//Each tile type will also have a "On the floor" type boolean that determines if you can place a block on top of it
+	public int positionrows;
+	public int positioncolumns;
+	
+	public String character;
+	
+	public Tile() {}
+	
+	public Tile(String character) {
+		this.character = character;
+	}
+	
+	public void printTile() {
+		System.out.print(character);
+	}
+	
+	public void printlnTile() {
+		System.out.println(character);
+	}
 }

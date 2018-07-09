@@ -11,10 +11,10 @@ public class Board {
 	public int rows;
 	public int columns;
 	
-	public String[][] board;
+	public Tile[][] board;
 	public Tag tag;
+	//Will use ItemTile eventually
 	public ArrayList<Item> specials = new ArrayList<Item>();
-	public ArrayList<Tile> tensils = new ArrayList<Tile>();
 	
 	public Board(int rows, int columns, Tag tag) {
 		this.rows = rows;
@@ -29,12 +29,12 @@ public class Board {
 	
 	
 	public void setBoard() {
-		board = new String[rows+2][columns+2];
+		board = new Tile[rows+2][columns+2];
 		
 		for(int k = 0; k <board.length; k++) {
 			for(int i = 0; i <board[0].length; i++) {
 				if (board[k][i]==null) {
-					board[k][i] = "0 ";
+					board[k][i] = new SuperStaticTile("0 ");
 				}
 			}
 		}
@@ -42,26 +42,26 @@ public class Board {
 	
 	public void generateOutandIn() {
 		for (int c = 0; c<=(rows+1); c++ ) {
-			board[c][0] = "| ";
-			board[c][(columns+1)]  = "| ";
+			board[c][0] = new SuperStaticTile("| ");
+			board[c][(columns+1)]  = new SuperStaticTile("| ");
 		}
 		for (int d = 0; d<=(columns+1); d++) {
-			board[0][d] = "--";
-			board[0][1] = "---";
-			board[(rows+1)][d] = "--";
-			board[(rows+1)][1] = "---";
+			board[0][d] = new SuperStaticTile("--");
+			board[0][1] = new SuperStaticTile("---");
+			board[(rows+1)][d] = new SuperStaticTile("--");
+			board[(rows+1)][1] = new SuperStaticTile("---");
 		}
 		
-		board[0][0] = "+";
-		board[rows+1][columns+1] = "+";
-		board[0][columns+1] = "+";
-		board[rows+1][0] = "+";
+		board[0][0] = new SuperStaticTile("+");
+		board[rows+1][columns+1] = new SuperStaticTile("+");
+		board[0][columns+1] = new SuperStaticTile("+");
+		board[rows+1][0] = new SuperStaticTile("+");
 	}
 	
 	public void printBoard() {
 		for(int k = 0; k < board.length; k++) {
-			for(int i = 0; i <board[0].length; i++ ) {
-					System.out.print(board[k][i]);
+			for(int i = 0; i < board[0].length; i++ ) {
+					board[k][i].printTile();
 			}
 			System.out.println();
 		}

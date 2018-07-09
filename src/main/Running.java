@@ -166,4 +166,10 @@ public class Running {
 		//Things need to be cleaned up
 		//Option to save at any time
 	}
+	
+	public void consoleOne(String h) {
+		if(h.equals("`")) {
+			System.out.println("Console Activated: \nType \"`\" and then a command");
+		}
+	}
 }

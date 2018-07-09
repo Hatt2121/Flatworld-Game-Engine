@@ -18,20 +18,28 @@
 
 * 0.1.7
 	* Adds:
-		* Litterally a bunch of classes (Too many)
+		* Literally a bunch of classes (Too many)
 * 0.1.8
 	* Changes:
 		* A ton of Renaming to provide consitancy
 	* Additions:	
 		* The ability to pick up Items from a board
 		* The ability to print the player's inventory
+		
+* 0.2.0
+	* Changes:
+		* Tiles!
+	* Additions: 
+		* Tiles!
+		* Tiles!
+		* Some concept classes like the [Pile] class
 
 ## Currently Being Worked On
+* Tiles
 * Console Line Functions
 * Command Functions
 
 ## Near Future
-* Tiles
 * Entities
 * Health
 
