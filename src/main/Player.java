@@ -405,61 +405,32 @@ public class Player {
 	 * 
 	 */
 	public void interact() {
-		boolean g;
-		Ask b = new Ask();
+		Tile a = null;
+		String b = null;
 		switch(dir) {
-			case WEST:
-				for(Item a: pos.returnBoard(curtag).specials) {
-					if(a.positionrows == positionrows && a.positioncolumns == positioncolumns - 1) {
-						g = b.yeno("Do You want to pick up this Item?");
-						if(g) {
-							inventory.addToInventory(a);
-							pos.returnBoard(curtag).board[a.positionrows][a.positioncolumns] = a.prevtile;
-							pos.returnBoard(curtag).specials.remove(pos.returnBoard(curtag).specials.indexOf(a));
-							break;
-						}
-					}
-				}
-				break;
-			case EAST:
-				for(Item a: pos.returnBoard(curtag).specials) {
-					if(a.positionrows == positionrows && a.positioncolumns == positioncolumns + 1) {
-						g = b.yeno("Do You want to pick up this Item?");
-						if(g) {
-							inventory.addToInventory(a);
-							pos.returnBoard(curtag).board[a.positionrows][a.positioncolumns] = a.prevtile;
-							pos.returnBoard(curtag).specials.remove(pos.returnBoard(curtag).specials.indexOf(a));
-							break;
-						}
-					}
-				}
-				break;
-			case NORTH:
-				for(Item a: pos.returnBoard(curtag).specials) {
-					if(a.positionrows == positionrows-1 && a.positioncolumns == positioncolumns) {
-						g = b.yeno("Do You want to pick up this Item?");
-						if(g) {
-							inventory.addToInventory(a);
-							pos.returnBoard(curtag).board[a.positionrows][a.positioncolumns] = a.prevtile;
-							pos.returnBoard(curtag).specials.remove(pos.returnBoard(curtag).specials.indexOf(a));
-							break;
-						}
-					}
-				}
-				break;
-			case SOUTH:
-				for(Item a: pos.returnBoard(curtag).specials) {
-					if(a.positionrows == positionrows+1 && a.positioncolumns == positioncolumns) {
-						g = b.yeno("Do You want to pick up this Item?");
-						if(g) {
-							inventory.addToInventory(a);
-							pos.returnBoard(curtag).board[a.positionrows][a.positioncolumns] = a.prevtile;
-							pos.returnBoard(curtag).specials.remove(pos.returnBoard(curtag).specials.indexOf(a));
-							break;
-						}
-					}
-				}
-				break;
+		case NORTH:
+			a = pos.returnBoard(curtag).board[positionrows-1][positioncolumns];
+			b = (a.getClass().getSimpleName());
+			break;
+		case SOUTH:
+			a = pos.returnBoard(curtag).board[positionrows+1][positioncolumns];
+			b = (a.getClass().getSimpleName());
+			break;
+		case EAST:
+			a = pos.returnBoard(curtag).board[positionrows][positioncolumns+1];
+			b = (a.getClass().getSimpleName());
+			break;
+		case WEST:
+			a = pos.returnBoard(curtag).board[positionrows][positioncolumns-1];
+			b = (a.getClass().getSimpleName());
+			break;
+		}
+		switch(b) {
+		case "ItemTile":
+			ItemTile j = (ItemTile) a;
+			inventory.addToInventory(j.t);
+			pos.returnBoard(curtag).board[j.t.positionrows][j.t.positioncolumns] = j.t.prevtile;
+			break;
 		}
 	}
 	

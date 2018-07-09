@@ -151,9 +151,8 @@ public class Running {
 	}
 	
 	public void interactOne(String h) {
-		if(h.equals("pick_up") ) {
+		if(h.equals("interact") ) {
 			player.interact();
-			player.inventory.printStats();
 		}
 	}
 	

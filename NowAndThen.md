@@ -21,7 +21,7 @@
 		* Literally a bunch of classes (Too many)
 * 0.1.8
 	* Changes:
-		* A ton of Renaming to provide consitancy
+		* A ton of Renaming to provide consistancy
 	* Additions:	
 		* The ability to pick up Items from a board
 		* The ability to print the player's inventory
@@ -33,6 +33,15 @@
 		* Tiles!
 		* Tiles!
 		* Some concept classes like the [Pile] class
+		
+* 0.2.2
+	* Additions:
+		* Added some more hierarchy with the [Tile] class tree
+		* Added [ItemTile], a subclass of [ContainerTile] that has a generic type to help 'opening' the tile
+	* Known Issues:
+		* The amount of positionrows and positioncolumns on classes
+		* Some consistency issues
+		* The amount of [Tile] classes without ideas supporting them
 
 ## Currently Being Worked On
 * Tiles

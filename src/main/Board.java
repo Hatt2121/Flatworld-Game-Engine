@@ -35,6 +35,8 @@ public class Board {
 			for(int i = 0; i <board[0].length; i++) {
 				if (board[k][i]==null) {
 					board[k][i] = new SuperStaticTile("0 ");
+					board[k][i].positionrows = k;
+					board[k][i].positioncolumns = i;
 				}
 			}
 		}

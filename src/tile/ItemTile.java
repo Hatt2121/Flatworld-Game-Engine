@@ -1,27 +1,24 @@
 package tile;
 
-import items.*;
+import items.Item;
 
-public class ItemTile extends FunctionalTile {
-
-	public Item item;
+public class ItemTile extends ContainerTile<Item> {
+	
+	public ItemTile() {}
 	
 	public ItemTile(Item a) {
-		super(a.character);
-		this.character = a.character+" ";
-		item = a;
+		super(a.character+" ");
+		t = a;
 	}
-
-	@Override
+	
 	public void interact() {
 		// TODO Auto-generated method stub
-
+		
 	}
-
-	@Override
+	
 	public void interfac() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }
