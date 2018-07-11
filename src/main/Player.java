@@ -6,12 +6,6 @@ public class Player {
 	
 	public boolean movedtoomuch;
 	
-	/**
-	 * track where a player is on a board
-	 */
-	public int positionrows;
-	public int positioncolumns;
-	
 	//Temporary constant
 	//Will be printed on percentage
 	public double health = 25;
@@ -25,17 +19,14 @@ public class Player {
 	 * This String is simply the representation of  itself on the board
 	 */
 	public String character = "T ";
-	/**
-	 * This Tile is for moving, because I can't actually delete the tile below the player
-	 */
-	public Tile prevtile;
+	
 	/**
 	 * This is the name of the character or player
 	 */
 	public String name;
 	
 	public Tag curtag;
-	public World pos;
+	public World world;
 	
 	public Inventory inventory = new Inventory();
 	public Item equipeditem;
@@ -45,7 +36,7 @@ public class Player {
 	public Tile playertile = new PlayerTile(this);
 	
 	public Player(World a) {
-		pos = a;
+		world = a;
 	}
 	
 	public Player() {}
@@ -53,19 +44,35 @@ public class Player {
 	public void spawnPlayer(Board spawn) {
 		int b = (spawn.rows/2)+1;
 		int c = (spawn.columns/2) + 1;
-		prevtile = spawn.board[b][c];
+		playertile.prevtile = spawn.board[b][c];
 		spawn.board[b][c] = playertile;
 	}
 	
 	public void spawnPlayer(World a) {
-		pos = a;
+		world = a;
 		if(a.checkTagList(a.spawntag)) {
 			Board spawn = a.returnBoard(a.spawntag);
 			curtag = a.spawntag;
 			int b = (spawn.rows/2)+1;
 			int c = (spawn.columns/2) +1;
-			prevtile = spawn.board[b][c];
+			playertile.prevtile = spawn.board[b][c];
 			spawn.board[b][c] = playertile;
+		} else {
+			System.out.println("There is no World");
+		}
+	}
+	
+	public void spawn(World a) {
+		world = a;
+		if(a.checkTagList(a.spawntag)) {
+			Board spawn = a.returnBoard(a.spawntag);
+			curtag = a.spawntag;
+			int b = (spawn.rows/2) + 1;
+			int c = (spawn.columns/2) + 1;
+			playertile.prevtile = spawn.board[b][c];
+			spawn.board[b][c] = playertile;
+			playertile.positionrows = b;
+			playertile.positioncolumns = c;
 		} else {
 			System.out.println("There is no World");
 		}
@@ -76,48 +83,50 @@ public class Player {
 	}
 	
 	public void printCurrentBoard() {
-		pos.returnBoard(curtag.posx, curtag.posy).printBoard();
+		world.returnBoard(curtag.posx, curtag.posy).printBoard();
 	}
 	
 	public void printPosition() {
 		System.out.println(
 				 curtag.printCoordinates() +
-				"\nPos. Rows: " + positionrows +
-				" Pos. Columns: " + positioncolumns
+				"\nPos. Rows: " + playertile.positionrows +
+				" Pos. Columns: " + playertile.positioncolumns
 		);
 		if(dir != null) {
 			printFacingDirection();
 		}
 	}
 
-	public void fetchPos(Board a) {
+	public void fetchPosition(Board a) {
 		for(int k = 0; k<a.board[0].length; k++) {
 			for(int b = 0; b<a.board.length; b++) {
 				if(a.board[b][k].equals(playertile)) {
-					positionrows = b;
-					positioncolumns = k;
+					playertile.positionrows = b;
+					playertile.positioncolumns = k;
 				}
 			}
 		}
-		System.out.println("Pos Rows: " + positionrows);
-		System.out.println("Pos Columns: " + positioncolumns);
+		System.out.println("Pos Rows: " + playertile.positionrows);
+		System.out.println("Pos Columns: " + playertile.positioncolumns);
 	}
 	
-	public void fetchPos(World a) {
+	public void fetchPosition(World a) {
 		for(int k = 0; k<a.overboard.size(); k++) {
 			for(int g = 0; g<=a.overboard.get(k).columns; g++) {
 				for(int c = 0;c<=a.overboard.get(k).rows; c++) {
 					Board h = a.overboard.get(k);
 					if(h.board[c][g].equals(playertile)) {
 						curtag = h.tag;
-						positionrows = c;
-						positioncolumns = g;
+						playertile.positionrows = c;
+						playertile.positioncolumns = g;
 					}
 				}
 			}
 		}
 	}
+	
 	/**
+	 * @deprecated
 	 * Moving within a board
 	 * @param c
 	 * @param a
@@ -126,26 +135,26 @@ public class Player {
 	 * 
 	 */
 	public void move(Board c, String a, int distance) {
-		c.board[positionrows][positioncolumns] = prevtile;
+		c.board[playertile.positionrows][playertile.positioncolumns] = playertile.prevtile;
 		switch(a) {
 			case "North":
-				positionrows = positionrows-distance;
+				playertile.positionrows = playertile.positionrows-distance;
 				break;
 			case "South": 
-				positionrows = positionrows+distance;
+				playertile.positionrows = playertile.positionrows+distance;
 				break;
 			case "East": 
-				positioncolumns = positioncolumns+distance;
+				playertile.positioncolumns = playertile.positioncolumns+distance;
 				break;
 			case "West": 
-				positioncolumns = positioncolumns-distance;
+				playertile.positioncolumns = playertile.positioncolumns-distance;
 				break;
 			default:
 				System.out.println("You did nothing!");
 				break;
 		}
-		prevtile = c.board[positionrows][positioncolumns];
-		c.board[positionrows][positioncolumns] = playertile;
+		playertile.prevtile = c.board[playertile.positionrows][playertile.positioncolumns];
+		c.board[playertile.positionrows][playertile.positioncolumns] = playertile;
 	}
 	
 	/** 
@@ -155,61 +164,61 @@ public class Player {
 	 * @param distance
 	 */
 	public void moveMod(Direction direction, int distance) {
-		Board c = pos.returnBoard(curtag);
-		c.board[positionrows][positioncolumns] = prevtile;
+		Board c = world.returnBoard(curtag);
+		c.board[playertile.positionrows][playertile.positioncolumns] = playertile.prevtile;
 			switch(direction) {
 				case NORTH:
-					if (distance>positionrows-1) {
-						positionrows = c.rows - (distance % (positionrows-1)) + 1;
+					if (distance>playertile.positionrows-1) {
+						playertile.positionrows = c.rows - (distance % (playertile.positionrows-1)) + 1;
 					}else {
-						positionrows = positionrows-distance;
+						playertile.positionrows = playertile.positionrows-distance;
 					}
 					break;
 				case SOUTH:
-					if(distance>(c.rows-positionrows)) {
-						positionrows = (distance % (c.rows-positionrows));
+					if(distance>(c.rows-playertile.positionrows)) {
+						playertile.positionrows = (distance % (c.rows-playertile.positionrows));
 					} else {
-						positionrows = positionrows+distance;
+						playertile.positionrows = playertile.positionrows+distance;
 					}
 					break;
 				case EAST:
-					if(distance>(c.columns-positioncolumns)) {
-						positioncolumns = (distance % (c.columns-positioncolumns));
+					if(distance>(c.columns-playertile.positioncolumns)) {
+						playertile.positioncolumns = (distance % (c.columns-playertile.positioncolumns));
 					} else {
-						positioncolumns = positioncolumns+distance;
+						playertile.positioncolumns = playertile.positioncolumns+distance;
 					}
 					break;
 				case WEST:
-					if(distance>(positioncolumns-1)) {
-						positioncolumns = c.columns - (distance % (positioncolumns-1));
+					if(distance>(playertile.positioncolumns-1)) {
+						playertile.positioncolumns = c.columns - (distance % (playertile.positioncolumns-1));
 					} else {
-						positioncolumns = positioncolumns-distance;
+						playertile.positioncolumns = playertile.positioncolumns-distance;
 					}
 					break;
 			}
-			prevtile = c.board[positionrows][positioncolumns];
-			c.board[positionrows][positioncolumns] = playertile;
+			playertile.prevtile = c.board[playertile.positionrows][playertile.positioncolumns];
+			c.board[playertile.positionrows][playertile.positioncolumns] = playertile;
 	}
 	
 	public void moveNorth(int distance) {
 		dir = Direction.NORTH;
-		Board j = pos.returnBoard(curtag);
-		j.board[positionrows][positioncolumns] = prevtile;
+		Board j = world.returnBoard(curtag);
+		j.board[playertile.positionrows][playertile.positioncolumns] = playertile.prevtile;
 		movedtoomuch = false;
-		if(distance>(positionrows-1)) {
-			if(pos.checkTagList(curtag.posx,curtag.posy+1)) {
+		if(distance>(playertile.positionrows-1)) {
+			if(world.checkTagList(curtag.posx,curtag.posy+1)) {
 				
-				Board t = pos.returnBoard(curtag.posx, curtag.posy + 1);
+				Board t = world.returnBoard(curtag.posx, curtag.posy + 1);
 				
 				//It's too large for the next board
-				if((distance-(positionrows-1)>t.rows)) {
+				if((distance-(playertile.positionrows-1)>t.rows)) {
 					System.out.println("Moving Too Much");
 					movedtoomuch = true;
 				} else {
-					positionrows = t.rows - (distance-(positionrows));
+					playertile.positionrows = t.rows - (distance-(playertile.positionrows));
 					
-					prevtile = t.board[positionrows][positioncolumns];
-					t.board[positionrows][positioncolumns] = playertile;
+					playertile.prevtile = t.board[playertile.positionrows][playertile.positioncolumns];
+					t.board[playertile.positionrows][playertile.positioncolumns] = playertile;
 					
 					
 				}
@@ -218,53 +227,53 @@ public class Player {
 				Tag board = new Tag(curtag.posx, curtag.posy+1);
 				int k = (int) (Math.random() * 10) + 5;
 				
-				if(pos.checkTagList(curtag.posx+1, curtag.posy+1)) {
-					k = pos.returnBoard(curtag.posx+1, curtag.posy+1).rows;
-				} else if(pos.checkTagList(curtag.posx-1, curtag.posy+1)) {
-					k = pos.returnBoard(curtag.posx-1, curtag.posy+1).rows;
+				if(world.checkTagList(curtag.posx+1, curtag.posy+1)) {
+					k = world.returnBoard(curtag.posx+1, curtag.posy+1).rows;
+				} else if(world.checkTagList(curtag.posx-1, curtag.posy+1)) {
+					k = world.returnBoard(curtag.posx-1, curtag.posy+1).rows;
 				}
 				
 				Board t = new Board(k, j.columns, board);
 				Methods.setupBoard(t);
-				pos.addBoard(t);
+				world.addBoard(t);
 				
-				if(distance-(positionrows-1)>t.rows) {
-					moveNorth((distance-(positionrows -1))-t.rows);
+				if(distance-(playertile.positionrows-1)>t.rows) {
+					moveNorth((distance-(playertile.positionrows -1))-t.rows);
 				} else {
-					positionrows = t.rows - (distance-(positionrows));
+					playertile.positionrows = t.rows - (distance-(playertile.positionrows));
 					
-					prevtile = t.board[positionrows][positioncolumns];
-					t.board[positionrows][positioncolumns] = playertile;
+					playertile.prevtile = t.board[playertile.positionrows][playertile.positioncolumns];
+					t.board[playertile.positionrows][playertile.positioncolumns] = playertile;
 				}
 				
 			}
 		} else {
-			positionrows = positionrows - distance;
-			prevtile = j.board[positionrows][positioncolumns];
-			j.board[positionrows][positioncolumns] = playertile;
+			playertile.positionrows = playertile.positionrows - distance;
+			playertile.prevtile = j.board[playertile.positionrows][playertile.positioncolumns];
+			j.board[playertile.positionrows][playertile.positioncolumns] = playertile;
 		}
 	}
 	
 	public void moveSouth(int distance) {
 		dir = Direction.SOUTH;
-		Board j = pos.returnBoard(curtag);
-		j.board[positionrows][positioncolumns] = prevtile;
+		Board j = world.returnBoard(curtag);
+		j.board[playertile.positionrows][playertile.positioncolumns] = playertile.prevtile;
 		movedtoomuch = false;
-		if(distance>((j.rows-1)-(positionrows-1))) {
-			if(pos.checkTagList(curtag.posx,curtag.posy-1)) {
+		if(distance>((j.rows-1)-(playertile.positionrows-1))) {
+			if(world.checkTagList(curtag.posx,curtag.posy-1)) {
 				
-				Board t = pos.returnBoard(curtag.posx, curtag.posy-1);
+				Board t = world.returnBoard(curtag.posx, curtag.posy-1);
 				
 				//It's too large for the next board
-				if((distance-(j.rows - positionrows-1)>t.rows)) {
+				if((distance-(j.rows - playertile.positionrows-1)>t.rows)) {
 					System.out.println("Moving Too Much");
 					movedtoomuch = true;
 				} else {
-					distance = distance - (j.rows  - (positionrows)); 
-					positionrows = distance;
+					distance = distance - (j.rows  - (playertile.positionrows)); 
+					playertile.positionrows = distance;
 					
-					prevtile = t.board[positionrows][positioncolumns];
-					t.board[positionrows][positioncolumns] = playertile;
+					playertile.prevtile = t.board[playertile.positionrows][playertile.positioncolumns];
+					t.board[playertile.positionrows][playertile.positioncolumns] = playertile;
 					
 					
 				}
@@ -272,129 +281,129 @@ public class Player {
 				Tag board = new Tag(curtag.posx,curtag.posy-1);
 				int k = (int) (Math.random() * 9) + 5;
 				
-				if(pos.checkTagList(curtag.posx+1, curtag.posy-1)) {
-					k = pos.returnBoard(curtag.posx+1, curtag.posy).rows;
-				} else if(pos.checkTagList(curtag.posx-1, curtag.posy-1)) {
-					k = pos.returnBoard(curtag.posx-1, curtag.posy).rows;
+				if(world.checkTagList(curtag.posx+1, curtag.posy-1)) {
+					k = world.returnBoard(curtag.posx+1, curtag.posy).rows;
+				} else if(world.checkTagList(curtag.posx-1, curtag.posy-1)) {
+					k = world.returnBoard(curtag.posx-1, curtag.posy).rows;
 				}
 				
 				Board t = new Board(k, j.columns, board);
 				Methods.setupBoard(t);
-				pos.addBoard(t);
+				world.addBoard(t);
 				
-				if((distance-(j.rows - positionrows-1)>t.rows)) {
+				if((distance-(j.rows - playertile.positionrows-1)>t.rows)) {
 					System.out.println("Moving Too Much");
-					//distance = distance - (positionrows-1) - t.rows;
+					//distance = distance - (playertile.positionrows-1) - t.rows;
 					//go South Method
 				} else {
-					distance = distance - (j.rows  - (positionrows)); 
-					positionrows = distance;
+					distance = distance - (j.rows  - (playertile.positionrows)); 
+					playertile.positionrows = distance;
 					
-					prevtile = t.board[positionrows][positioncolumns];
-					t.board[positionrows][positioncolumns] = playertile;
+					playertile.prevtile = t.board[playertile.positionrows][playertile.positioncolumns];
+					t.board[playertile.positionrows][playertile.positioncolumns] = playertile;
 				}
 				
 			}
 		} else {
-			positionrows = positionrows + distance;
-			prevtile = j.board[positionrows][positioncolumns];
-			j.board[positionrows][positioncolumns] = playertile;
+			playertile.positionrows = playertile.positionrows + distance;
+			playertile.prevtile = j.board[playertile.positionrows][playertile.positioncolumns];
+			j.board[playertile.positionrows][playertile.positioncolumns] = playertile;
 		}
 	}
 	
 	public void moveEast(int distance) {
 		dir = Direction.EAST;
-		Board j = pos.returnBoard(curtag);
-		j.board[positionrows][positioncolumns] = prevtile;
+		Board j = world.returnBoard(curtag);
+		j.board[playertile.positionrows][playertile.positioncolumns] = playertile.prevtile;
 		movedtoomuch = false;
-		if(distance>((j.columns-1)-(positioncolumns-1))) {
-			if(pos.checkTagList(curtag.posx+1, curtag.posy)) {
+		if(distance>((j.columns-1)-(playertile.positioncolumns-1))) {
+			if(world.checkTagList(curtag.posx+1, curtag.posy)) {
 				
-				Board t = pos.returnBoard(curtag.posx+1, curtag.posy);
+				Board t = world.returnBoard(curtag.posx+1, curtag.posy);
 				
-				if((distance-(j.columns-(positioncolumns-1))) > t.columns) {
+				if((distance-(j.columns-(playertile.positioncolumns-1))) > t.columns) {
 					System.out.println("Moving too much");
 					movedtoomuch = true;
 				} else {
-					positioncolumns = distance - (j.columns - (positioncolumns));
+					playertile.positioncolumns = distance - (j.columns - (playertile.positioncolumns));
 					
-					prevtile = t.board[positionrows][positioncolumns];
-					t.board[positionrows][positioncolumns] = playertile;
+					playertile.prevtile = t.board[playertile.positionrows][playertile.positioncolumns];
+					t.board[playertile.positionrows][playertile.positioncolumns] = playertile;
 				}
 			} else {
 				Tag board = new Tag(curtag.posx+1,curtag.posy);
 				int k = (int) (Math.random() * 9) + 5;
 				
-				if(pos.checkTagList(curtag.posx +1, curtag.posy + 1)) {
-					k = pos.returnBoard(curtag.posx + 1, curtag.posy + 1).columns;
-				}else if(pos.checkTagList(curtag.posx + 1, curtag.posy -1)) {
-					k = pos.returnBoard(curtag.posx + 1, curtag.posy - 1).columns;
+				if(world.checkTagList(curtag.posx +1, curtag.posy + 1)) {
+					k = world.returnBoard(curtag.posx + 1, curtag.posy + 1).columns;
+				}else if(world.checkTagList(curtag.posx + 1, curtag.posy -1)) {
+					k = world.returnBoard(curtag.posx + 1, curtag.posy - 1).columns;
 				}
 				Board t = new Board(j.rows,k,board);
 				Methods.setupBoard(t);
-				pos.addBoard(t);
+				world.addBoard(t);
 				
-				if((distance-(j.columns-(positioncolumns-1)))> t.columns ) {
+				if((distance-(j.columns-(playertile.positioncolumns-1)))> t.columns ) {
 					System.out.println("Moving too much");
 				} else {
-					positioncolumns = distance - (j.columns - (positioncolumns));
+					playertile.positioncolumns = distance - (j.columns - (playertile.positioncolumns));
 					
-					prevtile = t.board[positionrows][positioncolumns];
-					t.board[positionrows][positioncolumns] = playertile;
+					playertile.prevtile = t.board[playertile.positionrows][playertile.positioncolumns];
+					t.board[playertile.positionrows][playertile.positioncolumns] = playertile;
 				}		
 			}
 		} else {
-			positioncolumns = positioncolumns + distance;
-			prevtile = j.board[positionrows][positioncolumns];
-			j.board[positionrows][positioncolumns] = playertile;
+			playertile.positioncolumns = playertile.positioncolumns + distance;
+			playertile.prevtile = j.board[playertile.positionrows][playertile.positioncolumns];
+			j.board[playertile.positionrows][playertile.positioncolumns] = playertile;
 		}
 	}
 	
 	public void moveWest(int distance) {
 		dir = Direction.WEST;
-		Board j = pos.returnBoard(curtag);
-		j.board[positionrows][positioncolumns] = prevtile;
+		Board j = world.returnBoard(curtag);
+		j.board[playertile.positionrows][playertile.positioncolumns] = playertile.prevtile;
 		movedtoomuch = false;
-		if(distance>positioncolumns-1) {
-			if(pos.checkTagList(curtag.posx-1, curtag.posy)) {
+		if(distance>playertile.positioncolumns-1) {
+			if(world.checkTagList(curtag.posx-1, curtag.posy)) {
 				
-				Board t = pos.returnBoard(curtag.posx-1, curtag.posy);
+				Board t = world.returnBoard(curtag.posx-1, curtag.posy);
 				
-				if((distance-(positioncolumns-1)) > t.columns) {
+				if((distance-(playertile.positioncolumns-1)) > t.columns) {
 					System.out.println("Moving too much");
 					movedtoomuch = true;
 				} else {
-					positioncolumns = t.columns - (distance - (positioncolumns));
+					playertile.positioncolumns = t.columns - (distance - (playertile.positioncolumns));
 					
-					prevtile = t.board[positionrows][positioncolumns];
-					t.board[positionrows][positioncolumns] = playertile;
+					playertile.prevtile = t.board[playertile.positionrows][playertile.positioncolumns];
+					t.board[playertile.positionrows][playertile.positioncolumns] = playertile;
 				}
 			} else {
 				Tag board = new Tag(curtag.posx-1,curtag.posy);
 				int k = (int) (Math.random() * 9) + 5;
 				
-				if(pos.checkTagList(curtag.posx -1, curtag.posy + 1)) {
-					k = pos.returnBoard(curtag.posx - 1, curtag.posy + 1).columns;
-				}else if(pos.checkTagList(curtag.posx - 1, curtag.posy -1)) {
-					k = pos.returnBoard(curtag.posx - 1, curtag.posy - 1).columns;
+				if(world.checkTagList(curtag.posx -1, curtag.posy + 1)) {
+					k = world.returnBoard(curtag.posx - 1, curtag.posy + 1).columns;
+				}else if(world.checkTagList(curtag.posx - 1, curtag.posy -1)) {
+					k = world.returnBoard(curtag.posx - 1, curtag.posy - 1).columns;
 				}
 				Board t = new Board(j.rows,k,board);
 				Methods.setupBoard(t);
-				pos.addBoard(t);
+				world.addBoard(t);
 				
-				if((distance-(positioncolumns-1))> t.columns ) {
+				if((distance-(playertile.positioncolumns-1))> t.columns ) {
 					System.out.println("Moving too much");
 				} else {
-					positioncolumns = t.columns - (distance - (positioncolumns));
+					playertile.positioncolumns = t.columns - (distance - (playertile.positioncolumns));
 					
-					prevtile = t.board[positionrows][positioncolumns];
-					t.board[positionrows][positioncolumns] = playertile;
+					playertile.prevtile = t.board[playertile.positionrows][playertile.positioncolumns];
+					t.board[playertile.positionrows][playertile.positioncolumns] = playertile;
 				}		
 			}
 		} else {
-			positioncolumns = positioncolumns - distance;
-			prevtile = j.board[positionrows][positioncolumns];
-			j.board[positionrows][positioncolumns] = playertile;
+			playertile.positioncolumns = playertile.positioncolumns - distance;
+			playertile.prevtile = j.board[playertile.positionrows][playertile.positioncolumns];
+			j.board[playertile.positionrows][playertile.positioncolumns] = playertile;
 		}
 	}
 	
@@ -409,19 +418,19 @@ public class Player {
 		String b = null;
 		switch(dir) {
 		case NORTH:
-			a = pos.returnBoard(curtag).board[positionrows-1][positioncolumns];
+			a = world.returnBoard(curtag).board[playertile.positionrows-1][playertile.positioncolumns];
 			b = (a.getClass().getSimpleName());
 			break;
 		case SOUTH:
-			a = pos.returnBoard(curtag).board[positionrows+1][positioncolumns];
+			a = world.returnBoard(curtag).board[playertile.positionrows+1][playertile.positioncolumns];
 			b = (a.getClass().getSimpleName());
 			break;
 		case EAST:
-			a = pos.returnBoard(curtag).board[positionrows][positioncolumns+1];
+			a = world.returnBoard(curtag).board[playertile.positionrows][playertile.positioncolumns+1];
 			b = (a.getClass().getSimpleName());
 			break;
 		case WEST:
-			a = pos.returnBoard(curtag).board[positionrows][positioncolumns-1];
+			a = world.returnBoard(curtag).board[playertile.positionrows][playertile.positioncolumns-1];
 			b = (a.getClass().getSimpleName());
 			break;
 		}
@@ -429,7 +438,7 @@ public class Player {
 		case "ItemTile":
 			ItemTile j = (ItemTile) a;
 			inventory.addToInventory(j.t);
-			pos.returnBoard(curtag).board[j.t.positionrows][j.t.positioncolumns] = j.t.prevtile;
+			world.returnBoard(curtag).board[playertile.positionrows][playertile.positioncolumns] = j.prevtile;
 			break;
 		}
 	}

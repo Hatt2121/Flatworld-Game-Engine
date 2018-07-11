@@ -12,13 +12,11 @@ public class ItemTile extends ContainerTile<Item> {
 	}
 	
 	public void interact() {
-		// TODO Auto-generated method stub
 		
 	}
 	
 	public void interfac() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("This Item, " + t.name + " is all alone, would you pick it up?");
 	}
 
 }

@@ -14,7 +14,6 @@ public abstract class ContainerTile<T> extends FunctionalTile {
 	
 	public void set(T t) {
 		this.t = t;
-		obj = t;
 	}
 	
 	public T get() {

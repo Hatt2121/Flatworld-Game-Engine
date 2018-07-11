@@ -12,7 +12,7 @@ public class Running {
 	public void mainrunner() {
 		player.name = a.returnString("What do you want to be called?: ");
 		System.out.println();
-		player.pos.name = a.returnString("What do you want the world to be called?: ");
+		player.world.name = a.returnString("What do you want the world to be called?: ");
 		
 		for(;;clock++) {
 			String b = a.whatToDo(clock);
@@ -68,7 +68,7 @@ public class Running {
 			
 			System.out.println();
 			player.move(m, j);
-			player.fetchPos(player.pos);
+			player.fetchPosition(player.world);
 			if(!player.movedtoomuch) {
 				player.printCurrentBoard();
 				player.printPosition();
@@ -84,7 +84,7 @@ public class Running {
 			
 			System.out.println();
 			player.move(m, j);
-			player.fetchPos(player.pos);
+			player.fetchPosition(player.world);
 			if(!player.movedtoomuch) {
 				player.printCurrentBoard();
 				player.printPosition();

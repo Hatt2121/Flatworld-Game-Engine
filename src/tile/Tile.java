@@ -1,5 +1,7 @@
 package tile;
 
+import main.World;
+
 public abstract class Tile {
 	
 	public int positionrows;
@@ -7,22 +9,13 @@ public abstract class Tile {
 	
 	public String character;
 	
-	public Object obj;
-	
 	public Tile prevtile;
+	
+	public World world;
 	
 	public Tile() {}
 	
-	public Tile(Object obj) {
-		this.obj = obj; 
-	}
-	
 	public Tile(String character) {
-		this.character = character;
-	}
-	
-	public Tile(String character, Object obj) {
-		this.obj = obj;
 		this.character = character;
 	}
 	

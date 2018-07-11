@@ -1,10 +1,11 @@
 package items;
 
-public class Tool extends Item{
+public abstract class Tool extends Item {
 	
 	public Tool(String name) {
 		super(name);
-		
 	}
+	
+	public abstract void use();
 
 }

@@ -1,8 +1,6 @@
 package main;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import items.Item;
 import tile.*;
 
 public class Board {
@@ -13,8 +11,6 @@ public class Board {
 	
 	public Tile[][] board;
 	public Tag tag;
-	//Will use ItemTile eventually
-	public ArrayList<Item> specials = new ArrayList<Item>();
 	
 	public Board(int rows, int columns, Tag tag) {
 		this.rows = rows;
