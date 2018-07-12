@@ -1,6 +1,6 @@
 package tile;
 
-import main.World;
+import board.Board;
 
 public abstract class Tile {
 	
@@ -11,7 +11,7 @@ public abstract class Tile {
 	
 	public Tile prevtile;
 	
-	public World world;
+	public Board board;
 	
 	public Tile() {}
 	

@@ -1,54 +1,23 @@
-package main;
+package board;
 import java.util.ArrayList;
 
 public class World {
 	public String name;
-	public Board coodboard;
 	
 	public Board spawnboard;
-	public Tag spawntag;
+	public Tag SPAWNTAG = new Tag(0,0);
 	
 	Board g = new BError(15,15);
 	
 	public ArrayList<Board> overboard = new ArrayList<Board>();
 	public ArrayList<Tag> overtag = new ArrayList<Tag>();
 	
-	public World() {}
-	
-	//Creating a new World based on a spawnboard, player, and the tags
-	public World(Board spawnboard) {
-		this.spawnboard = spawnboard;
-		spawntag = spawnboard.tag;
-		overboard.add(spawnboard);
-		overtag.add(spawnboard.tag);
+	public World() {
+		Board a = new Board(15,15,SPAWNTAG);
+		spawnboard = a;
 		
-		g.setBoard();
-	}
-	
-	public World(Board spawnboard, Player player) { 
-		this.spawnboard = spawnboard;
-		spawntag = spawnboard.tag;
-		player.spawnPlayer(spawnboard);
-		overboard.add(spawnboard);
-		this.spawnboard.tag = spawnboard.tag;
-		overtag.add(spawnboard.tag);
-		g.setBoard();
-	}
-	
-	public World(Board spawnboard, Tag spawntag) {
-		overboard.add(spawnboard);
-		this.spawntag = spawntag;
-		spawnboard.tag = spawntag;
-		overtag.add(spawntag);
-		g.setBoard();
-	}
-	//	The constructor below is WIP
-	public World(Board spawnboard, Player player, Tag spawntag) {
-		overboard.add(spawnboard);
-		spawnboard.tag = spawntag;
-		overtag.add(spawntag);
-		player.spawnPlayer(spawnboard);
-		g.setBoard();
+		overboard.add(a);
+		overtag.add(a.tag);
 	}
 	
 	//For checking to see if a tag with associated board exists
@@ -100,7 +69,6 @@ public class World {
 	
 	public void addBoard(int rows, int columns, Tag tag) {
 		Board newboard = new Board(rows, columns, tag);
-		Methods.setupBoard(newboard);
 		overboard.add(newboard);
 		overtag.add(newboard.tag);
 	}

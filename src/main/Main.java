@@ -1,23 +1,15 @@
 package main;
 
-import items.*;
+import board.World;
+import player.Player;
 
 public class Main {
 	public static void main(String[] args) {
-		Board spawnboard = new Board(15,15, new Tag (0,0));
-		Methods.setupBoard(spawnboard);
+		Player a = new Player();
+		a.world = new World();
+		a.spawn(a.world);
 		
-		Player player =  new Player();
-		player.world = new World();
-		
-		player.world.addBoard(spawnboard);
-		player.world.spawntag = spawnboard.tag;
-		Item j = new Weapon("Gun");
-		j.spawn(player.world);
-		player.spawnPlayer(player.world);
-		player.fetchPosition(player.world);
-	
-		Running h = new Running(player);
-		h.mainrunner();
+		Running b = new Running(a);
+		b.mainrunner();
 	}
 }

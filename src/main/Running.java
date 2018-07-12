@@ -1,5 +1,7 @@
 package main;
 
+import player.*;
+
 public class Running {
 	Player player;
 	Ask a = new Ask();
@@ -13,7 +15,8 @@ public class Running {
 		player.name = a.returnString("What do you want to be called?: ");
 		System.out.println();
 		player.world.name = a.returnString("What do you want the world to be called?: ");
-		
+		player.printCurrentBoard();
+		player.printPosition();
 		for(;;clock++) {
 			String b = a.whatToDo(clock);
 			String o = b.toLowerCase();

@@ -1,6 +1,7 @@
 package items;
-import main.*;
+
 import tile.*;
+import board.*;
 
 public abstract class Item {
 	public boolean inenvironment;
@@ -12,11 +13,9 @@ public abstract class Item {
 	public String name;
 	public String character = "r";
 	
-	public Board curboard;
-	
 	public Value value;
 	
-	public Tile itemtile = new ItemTile(this);
+	public Tile itemtile;
 	
 	public Item() {}
 	
@@ -34,6 +33,8 @@ public abstract class Item {
 	 * @param a
 	 */
 	public void spawn(World a) {
+		generateProperties();
+		itemtile = new ItemTile(this);
 		int b = (int) Math.random() * a.overboard.size();
 		Board y = a.overboard.get(b);
 		
@@ -43,7 +44,7 @@ public abstract class Item {
 		itemtile.prevtile = y.board[itemtile.positionrows][itemtile.positioncolumns];
 		y.board[itemtile.positionrows][itemtile.positioncolumns] = itemtile;
 		
-		curboard = y;
+		itemtile.board = y;
 		inenvironment = true;
 	}
 	

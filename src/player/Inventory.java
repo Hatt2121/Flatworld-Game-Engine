@@ -1,7 +1,8 @@
-package main;
+package player;
 import java.util.ArrayList;
 
 import items.Item;
+import main.Ask;
 
 public class Inventory {
 	public ArrayList<Item> itemlist = new ArrayList<Item>();

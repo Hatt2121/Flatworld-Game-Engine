@@ -1,4 +1,4 @@
-package main;
+package board;
 
 public class Tag {
 	public int posx;

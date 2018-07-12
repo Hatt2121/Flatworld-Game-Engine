@@ -1,6 +1,6 @@
 package tile;
 
-import main.*;
+import player.Player;
 
 public class PlayerTile extends Tile {
 

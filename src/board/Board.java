@@ -1,6 +1,7 @@
-package main;
+package board;
 
 import java.util.Arrays;
+
 import tile.*;
 
 public class Board {
@@ -16,6 +17,8 @@ public class Board {
 		this.rows = rows;
 		this.columns = columns;
 		this.tag = tag;
+		setBoard();
+		create();
 	}
 	
 	public Board(int rows, int columns) {
@@ -38,7 +41,7 @@ public class Board {
 		}
 	}
 	
-	public void generateOutandIn() {
+	public void create() {
 		for (int c = 0; c<=(rows+1); c++ ) {
 			board[c][0] = new SuperStaticTile("| ");
 			board[c][(columns+1)]  = new SuperStaticTile("| ");

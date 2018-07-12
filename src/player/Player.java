@@ -1,5 +1,9 @@
-package main;
+package player;
+import board.Board;
+import board.Tag;
+import board.World;
 import items.Item;
+import main.Ask;
 import tile.*;
 
 public class Player {
@@ -25,7 +29,8 @@ public class Player {
 	 */
 	public String name;
 	
-	public Tag curtag;
+	public Tag tag;
+	public Board board;
 	public World world;
 	
 	public Inventory inventory = new Inventory();
@@ -41,40 +46,27 @@ public class Player {
 	
 	public Player() {}
 	
-	public void spawnPlayer(Board spawn) {
+	public void spawn(Board spawn) {
 		int b = (spawn.rows/2)+1;
 		int c = (spawn.columns/2) + 1;
 		playertile.prevtile = spawn.board[b][c];
 		spawn.board[b][c] = playertile;
 	}
 	
-	public void spawnPlayer(World a) {
-		world = a;
-		if(a.checkTagList(a.spawntag)) {
-			Board spawn = a.returnBoard(a.spawntag);
-			curtag = a.spawntag;
-			int b = (spawn.rows/2)+1;
-			int c = (spawn.columns/2) +1;
-			playertile.prevtile = spawn.board[b][c];
-			spawn.board[b][c] = playertile;
-		} else {
-			System.out.println("There is no World");
-		}
-	}
-	
 	public void spawn(World a) {
-		world = a;
-		if(a.checkTagList(a.spawntag)) {
-			Board spawn = a.returnBoard(a.spawntag);
-			curtag = a.spawntag;
-			int b = (spawn.rows/2) + 1;
-			int c = (spawn.columns/2) + 1;
-			playertile.prevtile = spawn.board[b][c];
-			spawn.board[b][c] = playertile;
+		a = world;
+		if(a.spawnboard != null) {
+			board = a.spawnboard;
+			tag = a.SPAWNTAG;
+			int b = (board.rows/2) + 1;
+			int c = (board.columns/2) + 1;
+			
+			playertile.prevtile = board.board[b][c];
+			board.board[b][c] = playertile;
 			playertile.positionrows = b;
 			playertile.positioncolumns = c;
 		} else {
-			System.out.println("There is no World");
+			System.out.println("There is no Board to spawn to");
 		}
 	}
 	
@@ -83,12 +75,12 @@ public class Player {
 	}
 	
 	public void printCurrentBoard() {
-		world.returnBoard(curtag.posx, curtag.posy).printBoard();
+		board.printBoard();
 	}
 	
 	public void printPosition() {
 		System.out.println(
-				 curtag.printCoordinates() +
+				 tag.printCoordinates() +
 				"\nPos. Rows: " + playertile.positionrows +
 				" Pos. Columns: " + playertile.positioncolumns
 		);
@@ -112,11 +104,12 @@ public class Player {
 	
 	public void fetchPosition(World a) {
 		for(int k = 0; k<a.overboard.size(); k++) {
-			for(int g = 0; g<=a.overboard.get(k).columns; g++) {
-				for(int c = 0;c<=a.overboard.get(k).rows; c++) {
-					Board h = a.overboard.get(k);
-					if(h.board[c][g].equals(playertile)) {
-						curtag = h.tag;
+			Board l = a.overboard.get(k);
+			for(int g = 0; g<=l.columns; g++) {
+				for(int c = 0;c<=l.rows; c++) {
+					if(l.board[c][g].equals(playertile)) {
+						tag = l.tag;
+						board = l;
 						playertile.positionrows = c;
 						playertile.positioncolumns = g;
 					}
@@ -126,7 +119,6 @@ public class Player {
 	}
 	
 	/**
-	 * @deprecated
 	 * Moving within a board
 	 * @param c
 	 * @param a
@@ -160,11 +152,12 @@ public class Player {
 	/** 
 	 * This method provides a pacman-style of moving, where if a player moves to far up, the player will go around instead of move to a new board 
 	 *
+	 *
 	 * @param direction
 	 * @param distance
 	 */
-	public void moveMod(Direction direction, int distance) {
-		Board c = world.returnBoard(curtag);
+	public void moveModificationOne(Direction direction, int distance) {
+		Board c = world.returnBoard(tag);
 		c.board[playertile.positionrows][playertile.positioncolumns] = playertile.prevtile;
 			switch(direction) {
 				case NORTH:
@@ -199,16 +192,41 @@ public class Player {
 			playertile.prevtile = c.board[playertile.positionrows][playertile.positioncolumns];
 			c.board[playertile.positionrows][playertile.positioncolumns] = playertile;
 	}
+	/**
+	 * Condensed version of the four <i>LARGE</i> methods above, so that it can be called by one method
+	 * @param dir
+	 * @param distance
+	 */
+	public void move(Direction dir, int distance) {
+		switch(dir) {
+			case NORTH:
+				moveNorth(distance);
+				break;
+			case SOUTH:
+				moveSouth(distance);
+				break;
+			case EAST:
+				moveEast(distance);
+				break;
+			case WEST:
+				moveWest(distance);
+				break;
+		}
+	}
 	
+	/**
+	 * Move the Player in the North Direction. This method suports cross-board moving
+	 * @param distance
+	 */
 	public void moveNorth(int distance) {
 		dir = Direction.NORTH;
-		Board j = world.returnBoard(curtag);
+		Board j = board;
 		j.board[playertile.positionrows][playertile.positioncolumns] = playertile.prevtile;
 		movedtoomuch = false;
 		if(distance>(playertile.positionrows-1)) {
-			if(world.checkTagList(curtag.posx,curtag.posy+1)) {
+			if(world.checkTagList(tag.posx,tag.posy+1)) {
 				
-				Board t = world.returnBoard(curtag.posx, curtag.posy + 1);
+				Board t = world.returnBoard(tag.posx, tag.posy + 1);
 				
 				//It's too large for the next board
 				if((distance-(playertile.positionrows-1)>t.rows)) {
@@ -224,17 +242,16 @@ public class Player {
 				}
 			} else {
 				
-				Tag board = new Tag(curtag.posx, curtag.posy+1);
+				Tag board = new Tag(tag.posx, tag.posy+1);
 				int k = (int) (Math.random() * 10) + 5;
 				
-				if(world.checkTagList(curtag.posx+1, curtag.posy+1)) {
-					k = world.returnBoard(curtag.posx+1, curtag.posy+1).rows;
-				} else if(world.checkTagList(curtag.posx-1, curtag.posy+1)) {
-					k = world.returnBoard(curtag.posx-1, curtag.posy+1).rows;
+				if(world.checkTagList(tag.posx+1, tag.posy+1)) {
+					k = world.returnBoard(tag.posx+1, tag.posy+1).rows;
+				} else if(world.checkTagList(tag.posx-1, tag.posy+1)) {
+					k = world.returnBoard(tag.posx-1, tag.posy+1).rows;
 				}
 				
 				Board t = new Board(k, j.columns, board);
-				Methods.setupBoard(t);
 				world.addBoard(t);
 				
 				if(distance-(playertile.positionrows-1)>t.rows) {
@@ -253,16 +270,19 @@ public class Player {
 			j.board[playertile.positionrows][playertile.positioncolumns] = playertile;
 		}
 	}
-	
+	/**
+	 * Move the Player in the South Direction. This method supports cross-board moving
+	 * @param distance
+	 */
 	public void moveSouth(int distance) {
 		dir = Direction.SOUTH;
-		Board j = world.returnBoard(curtag);
+		Board j = world.returnBoard(tag);
 		j.board[playertile.positionrows][playertile.positioncolumns] = playertile.prevtile;
 		movedtoomuch = false;
 		if(distance>((j.rows-1)-(playertile.positionrows-1))) {
-			if(world.checkTagList(curtag.posx,curtag.posy-1)) {
+			if(world.checkTagList(tag.posx,tag.posy-1)) {
 				
-				Board t = world.returnBoard(curtag.posx, curtag.posy-1);
+				Board t = world.returnBoard(tag.posx, tag.posy-1);
 				
 				//It's too large for the next board
 				if((distance-(j.rows - playertile.positionrows-1)>t.rows)) {
@@ -278,17 +298,16 @@ public class Player {
 					
 				}
 			} else {
-				Tag board = new Tag(curtag.posx,curtag.posy-1);
+				Tag board = new Tag(tag.posx,tag.posy-1);
 				int k = (int) (Math.random() * 9) + 5;
 				
-				if(world.checkTagList(curtag.posx+1, curtag.posy-1)) {
-					k = world.returnBoard(curtag.posx+1, curtag.posy).rows;
-				} else if(world.checkTagList(curtag.posx-1, curtag.posy-1)) {
-					k = world.returnBoard(curtag.posx-1, curtag.posy).rows;
+				if(world.checkTagList(tag.posx+1, tag.posy-1)) {
+					k = world.returnBoard(tag.posx+1, tag.posy).rows;
+				} else if(world.checkTagList(tag.posx-1, tag.posy-1)) {
+					k = world.returnBoard(tag.posx-1, tag.posy).rows;
 				}
 				
 				Board t = new Board(k, j.columns, board);
-				Methods.setupBoard(t);
 				world.addBoard(t);
 				
 				if((distance-(j.rows - playertile.positionrows-1)>t.rows)) {
@@ -310,16 +329,19 @@ public class Player {
 			j.board[playertile.positionrows][playertile.positioncolumns] = playertile;
 		}
 	}
-	
+	/**
+	 * Move the Player in the East Diretion. This method supports cross-board moving.
+	 * @param distance
+	 */
 	public void moveEast(int distance) {
 		dir = Direction.EAST;
-		Board j = world.returnBoard(curtag);
+		Board j = world.returnBoard(tag);
 		j.board[playertile.positionrows][playertile.positioncolumns] = playertile.prevtile;
 		movedtoomuch = false;
 		if(distance>((j.columns-1)-(playertile.positioncolumns-1))) {
-			if(world.checkTagList(curtag.posx+1, curtag.posy)) {
+			if(world.checkTagList(tag.posx+1, tag.posy)) {
 				
-				Board t = world.returnBoard(curtag.posx+1, curtag.posy);
+				Board t = world.returnBoard(tag.posx+1, tag.posy);
 				
 				if((distance-(j.columns-(playertile.positioncolumns-1))) > t.columns) {
 					System.out.println("Moving too much");
@@ -331,16 +353,15 @@ public class Player {
 					t.board[playertile.positionrows][playertile.positioncolumns] = playertile;
 				}
 			} else {
-				Tag board = new Tag(curtag.posx+1,curtag.posy);
+				Tag board = new Tag(tag.posx+1,tag.posy);
 				int k = (int) (Math.random() * 9) + 5;
 				
-				if(world.checkTagList(curtag.posx +1, curtag.posy + 1)) {
-					k = world.returnBoard(curtag.posx + 1, curtag.posy + 1).columns;
-				}else if(world.checkTagList(curtag.posx + 1, curtag.posy -1)) {
-					k = world.returnBoard(curtag.posx + 1, curtag.posy - 1).columns;
+				if(world.checkTagList(tag.posx +1, tag.posy + 1)) {
+					k = world.returnBoard(tag.posx + 1, tag.posy + 1).columns;
+				}else if(world.checkTagList(tag.posx + 1, tag.posy -1)) {
+					k = world.returnBoard(tag.posx + 1, tag.posy - 1).columns;
 				}
 				Board t = new Board(j.rows,k,board);
-				Methods.setupBoard(t);
 				world.addBoard(t);
 				
 				if((distance-(j.columns-(playertile.positioncolumns-1)))> t.columns ) {
@@ -358,16 +379,19 @@ public class Player {
 			j.board[playertile.positionrows][playertile.positioncolumns] = playertile;
 		}
 	}
-	
+	/**
+	 * Move the Player  in the West Direction. This method supports cross-board moving.
+	 * @param distance
+	 */
 	public void moveWest(int distance) {
 		dir = Direction.WEST;
-		Board j = world.returnBoard(curtag);
+		Board j = world.returnBoard(tag);
 		j.board[playertile.positionrows][playertile.positioncolumns] = playertile.prevtile;
 		movedtoomuch = false;
 		if(distance>playertile.positioncolumns-1) {
-			if(world.checkTagList(curtag.posx-1, curtag.posy)) {
+			if(world.checkTagList(tag.posx-1, tag.posy)) {
 				
-				Board t = world.returnBoard(curtag.posx-1, curtag.posy);
+				Board t = world.returnBoard(tag.posx-1, tag.posy);
 				
 				if((distance-(playertile.positioncolumns-1)) > t.columns) {
 					System.out.println("Moving too much");
@@ -379,16 +403,15 @@ public class Player {
 					t.board[playertile.positionrows][playertile.positioncolumns] = playertile;
 				}
 			} else {
-				Tag board = new Tag(curtag.posx-1,curtag.posy);
+				Tag board = new Tag(tag.posx-1,tag.posy);
 				int k = (int) (Math.random() * 9) + 5;
 				
-				if(world.checkTagList(curtag.posx -1, curtag.posy + 1)) {
-					k = world.returnBoard(curtag.posx - 1, curtag.posy + 1).columns;
-				}else if(world.checkTagList(curtag.posx - 1, curtag.posy -1)) {
-					k = world.returnBoard(curtag.posx - 1, curtag.posy - 1).columns;
+				if(world.checkTagList(tag.posx -1, tag.posy + 1)) {
+					k = world.returnBoard(tag.posx - 1, tag.posy + 1).columns;
+				}else if(world.checkTagList(tag.posx - 1, tag.posy -1)) {
+					k = world.returnBoard(tag.posx - 1, tag.posy - 1).columns;
 				}
 				Board t = new Board(j.rows,k,board);
-				Methods.setupBoard(t);
 				world.addBoard(t);
 				
 				if((distance-(playertile.positioncolumns-1))> t.columns ) {
@@ -409,28 +432,27 @@ public class Player {
 	
 	
 	/**
-	 * Don't interact with a border, it wouldn't work.
-	 * Most likely the player wouldn't try to interact with the border
-	 * 
+	 * This method makes the player interact with the object(really tile) in front of it.
+	 * And depending on what the object is, the player will interact differently
 	 */
 	public void interact() {
 		Tile a = null;
 		String b = null;
 		switch(dir) {
 		case NORTH:
-			a = world.returnBoard(curtag).board[playertile.positionrows-1][playertile.positioncolumns];
+			a = world.returnBoard(tag).board[playertile.positionrows-1][playertile.positioncolumns];
 			b = (a.getClass().getSimpleName());
 			break;
 		case SOUTH:
-			a = world.returnBoard(curtag).board[playertile.positionrows+1][playertile.positioncolumns];
+			a = world.returnBoard(tag).board[playertile.positionrows+1][playertile.positioncolumns];
 			b = (a.getClass().getSimpleName());
 			break;
 		case EAST:
-			a = world.returnBoard(curtag).board[playertile.positionrows][playertile.positioncolumns+1];
+			a = world.returnBoard(tag).board[playertile.positionrows][playertile.positioncolumns+1];
 			b = (a.getClass().getSimpleName());
 			break;
 		case WEST:
-			a = world.returnBoard(curtag).board[playertile.positionrows][playertile.positioncolumns-1];
+			a = world.returnBoard(tag).board[playertile.positionrows][playertile.positioncolumns-1];
 			b = (a.getClass().getSimpleName());
 			break;
 		}
@@ -438,15 +460,24 @@ public class Player {
 		case "ItemTile":
 			ItemTile j = (ItemTile) a;
 			inventory.addToInventory(j.t);
-			world.returnBoard(curtag).board[playertile.positionrows][playertile.positioncolumns] = j.prevtile;
+			world.returnBoard(tag).board[playertile.positionrows][playertile.positioncolumns] = j.prevtile;
 			break;
 		}
 	}
 	
-	public void interact(Board a) {
-		
-	}
+	/** 
+	 * This method would allow for the player to interact with the board itself, probably to give some sort of description of the location or some sort
+	 * This method is currently an Idea, and hasn't been implemented yet
+	 * @deprecated
+	 * @param a
+	 */
+	public void interact(Board a) {}
 	
+	/**
+	 * This method would equip the Item after the player asked what it would like to equip.
+	 * This method probably would change to allow the <i>Running</i> class to ask it instead of the <i>Player</i> class.
+	 *
+	 */
 	public void equipItem() {
 		Ask b = new Ask();
 		inventory.printInventory();
@@ -459,23 +490,6 @@ public class Player {
 			}
 		}
 		
-	}
-	
-	public void move(Direction dir, int distance) {
-		switch(dir) {
-			case NORTH:
-				moveNorth(distance);
-				break;
-			case SOUTH:
-				moveSouth(distance);
-				break;
-			case EAST:
-				moveEast(distance);
-				break;
-			case WEST:
-				moveWest(distance);
-				break;
-		}
 	}
 	
 	public void printFacingDirection() {

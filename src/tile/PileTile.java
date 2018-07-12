@@ -15,14 +15,12 @@ public class PileTile extends ContainerTile<Pile> {
 	
 	@Override
 	public void interact() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void interfac() {
-		// TODO Auto-generated method stub
-		
+				
 	}
 
 }
