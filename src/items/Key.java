@@ -1,6 +1,6 @@
 package items;
 
-public class Key extends Tool {
+public class Key extends Item implements Tool {
 	public Key(String name) {
 		super(name);
 	}
@@ -13,7 +13,6 @@ public class Key extends Tool {
 	}
 
 	public void use() {
-		// TODO Auto-generated method stub
 		
 	}
 	

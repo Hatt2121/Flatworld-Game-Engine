@@ -9,7 +9,8 @@ public class Main {
 		a.world = new World();
 		a.spawn(a.world);
 		
-		Running b = new Running(a);
-		b.mainrunner();
+		//Running b = new Running(a);
+		//b.mainrunner();
+		
 	}
 }

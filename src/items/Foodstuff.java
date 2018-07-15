@@ -1,6 +1,6 @@
 package items;
 
-public class Foodstuff extends Consumable {
+public class Foodstuff extends Item implements Consumable,Tool {
 
 	/**
 	 * For invoking random generation
@@ -17,10 +17,17 @@ public class Foodstuff extends Consumable {
 
 	/**
 	 * Work in Progress: 
-	 * Will generate properties based on files on board
+	 * Will generate properties based on files in assets.Items
 	 */
 	public void generateProperties() {
 		
+		
+	}
+	public void use() {
+		
+	}
+	
+	public void destroyThyself() {
 		
 	}
 }

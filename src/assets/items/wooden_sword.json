@@ -1,0 +1,36 @@
+{
+	"name":"Wooden_Sword",
+	"weight":{
+		"minimum":3.3,
+		"maximum":3.5
+	},
+	"size":5,
+	"value":{
+		"minimum":1.5,
+		"maximum":2.4
+	},
+	"density":0.9,
+	"character":"/",
+	"type": {
+		"super_type":"weapon",
+		"sub_type":"melee",
+		"main_material":"wood"
+	},
+	"combat": {
+		"aoe_type":0,
+		"damage":5,
+		"special_abilties":[
+			{
+				"name":"Splinter",
+				"description":"Your enemies focus on how there is a small splinter on their thumb.",
+				"effect": {
+					"name":"focus",
+					"description":"Enemy has a chance of not hitting",
+					"dpt": null,
+					"amplitude":2
+				}
+			}
+		
+		]
+	}
+}
