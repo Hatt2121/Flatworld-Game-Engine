@@ -1,5 +1,8 @@
 package board;
 
+import org.fusesource.jansi.Ansi;
+import org.fusesource.jansi.AnsiConsole;
+
 public class Tag {
 	public int posx;
 	public int posy;
@@ -15,8 +18,13 @@ public class Tag {
 		posy = y;
 	}
 	
-	public String printCoordinates() {
+	public String returnCoordinates() {
 		String a = "("+posx+","+posy+")";
 		return a;
+	}
+	
+	public void printAnsiCoordinates() {
+		String a = "("+posx+","+posy+")";
+		AnsiConsole.out.println(Ansi.ansi().fg(Ansi.Color.BLUE).a(a));
 	}
 }

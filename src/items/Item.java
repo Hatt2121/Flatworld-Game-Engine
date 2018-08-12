@@ -2,6 +2,10 @@ package items;
 
 import tile.*;
 import board.*;
+import items.weapons.*;
+import jsonreader.*;
+
+import org.fusesource.jansi.Ansi;
 
 public abstract class Item {
 	public boolean inenvironment;
@@ -11,24 +15,28 @@ public abstract class Item {
 	public double density;
 	
 	public String name;
-	/**
-	 * This is a temporary value, Item will generate properties based on a JSON file
-	 */
 	public String character;
 	
-	public Value value;
+	public double value;
+	
+	public Ansi.Color color;
 	
 	public Tile itemtile;
 	
 	public Item() {}
 	
-	public Item(String name) {
-		this.name = name;
+	public Item(String character) {
+		this.character = character;
 	}
 	
-	public Item(String name, String character) {
+	public Item(String character,String name) {
 		this.name = name;
 		this.character = character;
+	}
+	
+	public Item(String character, Ansi.Color color) {
+		this.character = character;
+		this.color = color;
 	}
 	
 	/**
@@ -36,7 +44,6 @@ public abstract class Item {
 	 * @param a
 	 */
 	public void spawn(World a) {
-		generateProperties();
 		itemtile = new ItemTile(this);
 		int b = (int) Math.random() * a.overboard.size();
 		Board y = a.overboard.get(b);
@@ -52,8 +59,8 @@ public abstract class Item {
 	}
 	
 	public void RandomSpawn(World a) {
-		generateFromRandom();
-		itemtile = new ItemTile(this);
+		Item g = generateRandom();
+		itemtile = new ItemTile(g);
 		int b = (int) Math.random() * a.overboard.size();
 		Board y = a.overboard.get(b);
 		
@@ -68,14 +75,28 @@ public abstract class Item {
 	}
 	
 	public void printStats() {
-		System.out.println(name+" " +character+" "+value.value+" "+weight+" "+size+" "+density);
+		System.out.println(name+" " +character+" "+value+" "+weight+" "+size+" "+density);
 	}
 	
+	public Item generateRandom() {
+		Item h = new ErrorItem();
+		ItemReader a = new /*Random*/ ItemReader();
+		String type = a.returnSuperType();
+		switch(type) {
+		case"weapon":
+			String subtype = a.returnSubType();
+			if(subtype.equals("melee")) {
+				h = new MeleeWeapon("/");
+				h.generateProperties(a);
+			} else if(subtype.equals("range")) {
+				h = new RangeWeapon("r");
+				h.generateProperties();
+			}
+		}
+		return h;
+	}
+
 	public abstract void generateProperties();
-	//Call This and then spawn item
-	
-	public void generateFromRandom() {
-		//Totally random
-	}
+	public abstract void generateProperties(ItemReader itemreader);
 
 }

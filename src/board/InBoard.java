@@ -14,22 +14,22 @@ public class InBoard extends Board{
 	public void generateOutandIn() {
 		
 		for(int c = 1; c < (rows+1); c++) {
-			board[c][0] = new SuperStaticTile("[");
-			board[c][(columns+1)]  = new SuperStaticTile("]");
+			board[c][0] = new VoidTile("[");
+			board[c][(columns+1)]  = new VoidTile("]");
 		}
 		
 		for(int g = 2; g < (rows); g++) {
-			board[g][0] = new SuperStaticTile("|");
-			board[g][(columns+1)] = new SuperStaticTile("|");
+			board[g][0] = new VoidTile("|");
+			board[g][(columns+1)] = new VoidTile("|");
 		}
 		for (int d = 1; d<(columns+1); d++) {
-			board[0][d] = new SuperStaticTile("==");
-			board[(rows+1)][d] = new SuperStaticTile("==");
+			board[0][d] = new VoidTile("==");
+			board[(rows+1)][d] = new VoidTile("==");
 		}
 		
-		board[0][0] = new SuperStaticTile("+");
-		board[rows+1][columns+1] = new SuperStaticTile("+");
-		board[0][columns+1] = new SuperStaticTile("+");
-		board[rows+1][0] = new SuperStaticTile("+");
+		board[0][0] = new VoidTile("+");
+		board[rows+1][columns+1] = new VoidTile("+");
+		board[0][columns+1] = new VoidTile("+");
+		board[rows+1][0] = new VoidTile("+");
 	}
 }

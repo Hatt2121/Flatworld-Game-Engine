@@ -1,6 +1,9 @@
 package board;
 import java.util.ArrayList;
 
+import org.fusesource.jansi.Ansi;
+import org.fusesource.jansi.AnsiConsole;
+
 public class World {
 	public String name;
 	
@@ -120,7 +123,13 @@ public class World {
 	//Print the Lists
 	public void printOvertag() {
 		for(int i = 0; i <overtag.size(); i++) {
-			System.out.println("Tag of Index-" + i +": " + overtag.get(i).printCoordinates());
+			System.out.println("Tag of Index-" + i +": " + overtag.get(i).returnCoordinates());
+		}
+	}
+	
+	public void printAnsiOvertag() {
+		for(int i = 0; i < overtag.size(); i++) {
+			AnsiConsole.out.println(Ansi.ansi().fg(Ansi.Color.WHITE).a("Tag of Index-" + i +": " + overtag.get(i).returnCoordinates()));
 		}
 	}
 	

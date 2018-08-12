@@ -7,7 +7,7 @@ public class ItemTile extends ContainerTile<Item> {
 	public ItemTile() {}
 	
 	public ItemTile(Item a) {
-		super(a.character+" ");
+		super(a.character,a.color);
 		t = a;
 	}
 	

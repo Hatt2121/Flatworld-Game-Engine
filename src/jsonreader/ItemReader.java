@@ -1,19 +1,30 @@
 package jsonreader;
 
+import java.io.File;
+
 import com.google.gson.JsonObject;
 
 public class ItemReader {
 	
-	JsonReader jr;
+	public JsonReader jr;
+	public String json;
 	
 	public ItemReader(String filename) {
-		String s = "src/assets/Items/";
+		String s = "src/assets/items/";
 		String str = s + filename;
 		jr = new JsonReader(str);
 	}
 	
-	public String returnName() {
-		return jr.getStringFromElement("name");
+	/**
+	 * Generates a reader by random file inside of assets.items folder
+	 */
+	public ItemReader() {
+		String s = "src/assets/items/";
+		File a = new File(s);
+		File[] u = a.listFiles();
+		int y = (int) Math.random() * (u.length-1);
+		File h = u[y];
+		jr = new JsonReader(h);
 	}
 	
 	public double returnWeightDoubles(String element) {
@@ -31,6 +42,19 @@ public class ItemReader {
 	
 	public double returnDensity() {
 		return jr.getDoubleFromElement("density");
+	}
+	
+	public double returnValueDoubles(String element) {
+		JsonObject jo = jr.getObjectFromElement("value");
+		return jr.getDoubleFromObject(jo,element);
+	}
+	
+	public double returnValueMaximum() {
+		return returnValueDoubles("maximum");
+	}
+	
+	public double returnValueMinimum() {
+		return returnValueDoubles("minimum");
 	}
 	
 	public String returnCharacter() {
@@ -52,5 +76,11 @@ public class ItemReader {
 	
 	public String returnMainMaterial() {
 		return returnTypeStrings("main_material");
+	}
+	
+	public String returnName() {
+		String s = jr.getStringFromElement("name");
+		s  = s.replaceAll("_", " ");
+		return s;
 	}
 }

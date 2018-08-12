@@ -5,7 +5,7 @@ import items.Pile;
 public class PileTile extends ContainerTile<Pile> {
 
 	public PileTile(Pile a) {
-		super(a.CHARACTER+" ");
+		super(a.CHARACTER);
 		t = a;
 	}
 	

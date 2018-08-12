@@ -23,11 +23,26 @@ public class JsonReader {
 		json = str;
 	}
 	
+	public JsonReader(File file) {
+		String r = "";
+		try {
+			r = FileUtils.readFileToString(file,"UTF-8");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String str = r.replaceAll("\\s+", "");
+		json = str;
+	}
+	
 	public JsonObject getObjectFromElement(String element) {
 		Gson gson = new Gson();
 		JsonObject jsonobject = gson.fromJson(json, JsonObject.class);
 		jsonobject = jsonobject.get(element).getAsJsonObject();
 		return jsonobject;
+	}
+	
+	public JsonObject getObjectFromObjectElement(JsonObject jo, String element) {
+		return jo.get(element).getAsJsonObject();
 	}
 	
 	public String getStringFromElement(String element) {
@@ -59,25 +74,24 @@ public class JsonReader {
 		return a;
 	}
 	
-	public ArrayList<JsonObject> getListFromJsonArray(JsonArray jasonArray) {
+	public ArrayList<JsonObject> getListFromJsonArray(JsonArray jsonArray) {
 		int j = 0;
 		ArrayList<JsonObject> x = new ArrayList<JsonObject>();
 		do {
-			JsonObject y = jasonArray.get(j).getAsJsonObject();
+			JsonObject y = jsonArray.get(j).getAsJsonObject();
 			x.add(y);
-		} while(!(jasonArray.isJsonNull()));
+		} while(!(jsonArray.isJsonNull()));
 		
 		return x;
 	}
 	
-	public String getStringFromObject(JsonObject jasonObject, String element) {
-		String str = jasonObject.get(element).getAsString();
+	public String getStringFromObject(JsonObject jsonObject, String element) {
+		String str = jsonObject.get(element).getAsString();
 		return str;
 	}
 	
-	public int getIntFromObject(JsonObject jasonObject, String element) {
-		int in = jasonObject.get(element).getAsInt();
-		return in;
+	public int getIntFromObject(JsonObject jsonObject, String element) {
+		return jsonObject.get(element).getAsInt();
 	}
 	
 	public double getDoubleFromObject(JsonObject jsonobject, String element) {
@@ -85,8 +99,8 @@ public class JsonReader {
 		return dou;
 	}
 	
-	public JsonArray getArrayFromJsonObject(JsonObject jasonObject) {
-		JsonArray ja = jasonObject.getAsJsonArray();
+	public JsonArray getArrayFromObject(JsonObject jsonObject, String element) {
+		JsonArray ja = jsonObject.get(element).getAsJsonArray();
 		return ja;
 	}
 	

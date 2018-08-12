@@ -1,8 +1,7 @@
 package tile;
 
-public abstract class StaticTile extends Tile {
+public interface StaticTile {
+	//It does actually nothing
 	
-	public StaticTile(String character) {
-		super(character);
-	}
+	public void getBumped();
 }

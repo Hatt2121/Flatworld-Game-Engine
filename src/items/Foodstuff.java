@@ -1,5 +1,7 @@
 package items;
 
+import jsonreader.ItemReader;
+
 public class Foodstuff extends Item implements Consumable,Tool {
 
 	/**
@@ -14,20 +16,20 @@ public class Foodstuff extends Item implements Consumable,Tool {
 	public Foodstuff(String name, String character) {
 		super(name,character);
 	}
-
-	/**
-	 * Work in Progress: 
-	 * Will generate properties based on files in assets.Items
-	 */
-	public void generateProperties() {
-		
-		
-	}
+	
 	public void use() {
 		
 	}
 	
 	public void destroyThyself() {
+		
+	}
+	public void generateProperties() {
+		
+	}
+
+	public void generateProperties(ItemReader itemreader) {
+		
 		
 	}
 }

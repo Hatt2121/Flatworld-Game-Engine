@@ -21,14 +21,9 @@
 		"damage":5,
 		"special_abilties":[
 			{
-				"name":"Splinter",
-				"description":"Your enemies focus on how there is a small splinter on their thumb.",
-				"effect": {
-					"name":"focus",
-					"description":"Enemy has a chance of not hitting",
-					"dpt": null,
-					"amplitude":2
-				}
+				"ability_name":"Splinter",
+				"ability_description":"Your enemies focus on how there is a small splinter on their thumb.",
+				"ability_effect_code":"focus-0"
 			}
 		
 		]

@@ -1,4 +1,7 @@
 package player;
+import org.fusesource.jansi.Ansi;
+import org.fusesource.jansi.AnsiConsole;
+
 import board.Board;
 import board.Tag;
 import board.World;
@@ -22,12 +25,14 @@ public class Player {
 	/**
 	 * This String is simply the representation of  itself on the board
 	 */
-	public String character = "T ";
+	public String character = "T";
 	
 	/**
 	 * This is the name of the character or player
 	 */
 	public String name;
+	
+	public Ansi.Color color;
 	
 	public Tag tag;
 	public Board board;
@@ -42,6 +47,15 @@ public class Player {
 	
 	public Player(World a) {
 		world = a;
+	}
+	
+	public Player(Ansi.Color color) {
+		this.color = color;
+	}
+	
+	public Player(World a, Ansi.Color color) {
+		world = a;
+		this.color = color;
 	}
 	
 	public Player() {}
@@ -78,12 +92,26 @@ public class Player {
 		board.printBoard();
 	}
 	
+	public void printAnsiCurrentBoard() {
+		board.printAnsiBoard();
+	}
+	
 	public void printPosition() {
 		System.out.println(
-				 tag.printCoordinates() +
+				 tag.returnCoordinates() +
 				"\nPos. Rows: " + playertile.positionrows +
 				" Pos. Columns: " + playertile.positioncolumns
 		);
+		if(dir != null) {
+			printFacingDirection();
+		}
+	}
+	
+	public void printAnsiPosition() {
+		tag.printAnsiCoordinates();
+		AnsiConsole.out.println(Ansi.ansi().fg(Ansi.Color.RED).a("\nPos. Rows: " + playertile.positionrows
+				+" Pos. columns: " + playertile.positioncolumns
+				));
 		if(dir != null) {
 			printFacingDirection();
 		}
