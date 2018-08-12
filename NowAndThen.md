@@ -39,9 +39,12 @@
 		* Added some more hierarchy with the [Tile] class tree
 		* Added [ItemTile], a subclass of [ContainerTile] that has a generic type to help 'opening' the tile
 	* Known Issues:
-		* The amount of positionrows and positioncolumns on classes
-		* Some consistency issues
-		* The amount of [Tile] classes without ideas supporting them
+		* a) The amount of positionrows and positioncolumns on classes
+		* b) Some consistency issues
+		* c) The amount of [Tile] classes without ideas supporting them
+* 0.3.0
+	* Additions:
+		* Added some Json Support!
 
 ## Currently Being Worked On
 * Tiles
